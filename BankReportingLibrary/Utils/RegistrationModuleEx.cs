@@ -31,6 +31,11 @@ public static class RegistrationModuleEx
                 builder.TryAddTransient(c);
             }
         }
+
+        // Register utilities
+        builder.Add(new ServiceDescriptor(
+                typeof(Lazy<>), typeof(LazyImpl<>), ServiceLifetime.Transient
+            ));
     }
 
     // Store
