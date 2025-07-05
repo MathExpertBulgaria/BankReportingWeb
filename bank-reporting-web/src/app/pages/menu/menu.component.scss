@@ -1,0 +1,23 @@
+img.small-size {
+    width: 200px;
+}
+
+img.normal-size {
+    width: 360px;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    gap: 0px 10px;
+}
+
+mat-toolbar.sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
