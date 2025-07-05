@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BankReportingLibrary.BL.Transaction.Models;
+﻿namespace BankReportingLibrary.BL.Transaction.Models;
 
 /// <summary>
 /// Transaction model
@@ -32,4 +26,5 @@ public class TransactionModel
     public string? Status { get; set; }
 
     public string? ExternalId { get; set; }
+    public decimal? IdTransactionFile { get; set; }
 }

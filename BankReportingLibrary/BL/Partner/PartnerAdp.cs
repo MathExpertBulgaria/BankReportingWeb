@@ -1,5 +1,4 @@
 ﻿using BankReportingDb.Context;
-using BankReportingDb.Models;
 using BankReportingLibrary.BL.Models;
 using BankReportingLibrary.BL.Partner.Models;
 using BankReportingLibrary.BL.Reporting;
@@ -63,7 +62,7 @@ public class PartnerAdp : DbClassRoot
             };
 
             // Commit
-            await tran.CommitAsync();
+            await tran.CommitAsync().ConfigureAwait(false);
         }
 
         // Return
@@ -87,7 +86,8 @@ public class PartnerAdp : DbClassRoot
         {
             // Data
             res.Data = await Db.RPartners.AsNoTracking()
-                .Select(x => new PartnerModel() {
+                .Select(x => new PartnerModel()
+                {
                     Id = x.Id,
                     Name = x.Name
                 })
@@ -95,7 +95,8 @@ public class PartnerAdp : DbClassRoot
                 .ConfigureAwait(false);
 
             // Commit
-            await tran.CommitAsync();
+            await tran.CommitAsync()
+                .ConfigureAwait(false);
         }
 
         // Check

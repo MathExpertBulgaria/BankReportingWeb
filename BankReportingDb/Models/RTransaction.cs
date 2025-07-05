@@ -27,5 +27,7 @@ public partial class RTransaction
 
     public string ExternalId { get; set; }
 
+    public decimal? IdTransactionFile { get; set; }
+
     public virtual RMerchant IdMerchantNavigation { get; set; }
 }

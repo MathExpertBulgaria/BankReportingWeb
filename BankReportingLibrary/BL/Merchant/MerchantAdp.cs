@@ -1,17 +1,11 @@
 ﻿using BankReportingDb.Context;
-using BankReportingLibrary.BL.Models;
 using BankReportingLibrary.BL.Merchant.Models;
+using BankReportingLibrary.BL.Models;
 using BankReportingLibrary.BL.Reporting;
 using BankReportingLibrary.Models.CoreModels;
 using BankReportingLibrary.Nomen.Consts;
 using BankReportingLibrary.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Castle.Core.Resource;
 
 namespace BankReportingLibrary.BL.Merchant;
 
@@ -77,7 +71,8 @@ public class MerchantAdp : DbClassRoot
             };
 
             // Commit
-            await tran.CommitAsync();
+            await tran.CommitAsync()
+                .ConfigureAwait(false);
         }
 
         // Return
@@ -116,7 +111,8 @@ public class MerchantAdp : DbClassRoot
                 .ConfigureAwait(false);
 
             // Commit
-            await tran.CommitAsync();
+            await tran.CommitAsync()
+                .ConfigureAwait(false);
         }
 
         // Check

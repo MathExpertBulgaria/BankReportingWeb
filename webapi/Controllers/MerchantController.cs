@@ -1,6 +1,6 @@
-﻿using BankReportingLibrary.BL.Models;
-using BankReportingLibrary.BL.Merchant;
+﻿using BankReportingLibrary.BL.Merchant;
 using BankReportingLibrary.BL.Merchant.Models;
+using BankReportingLibrary.BL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Code;

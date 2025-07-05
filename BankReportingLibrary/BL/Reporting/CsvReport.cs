@@ -1,5 +1,4 @@
-﻿using BankReportingLibrary.BL.Partner.Models;
-using CsvHelper;
+﻿using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
 

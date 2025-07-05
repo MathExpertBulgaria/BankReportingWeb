@@ -26,7 +26,8 @@ public static class RegistrationModuleEx
                 builder.TryAddScoped(c);
             }
             // Reporting
-            else if (c.Namespace != null && c.Namespace.Contains("Reporting")) {
+            else if (c.Namespace != null && c.Namespace.Contains("Reporting"))
+            {
                 builder.TryAddTransient(c);
             }
         }

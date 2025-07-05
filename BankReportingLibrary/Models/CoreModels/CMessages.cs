@@ -64,7 +64,7 @@ public class CMessages
     {
         foreach (var message in messages)
         {
-            Messages.Add(new CMessage() { Message = message.Message, MessageType = message.MessageType});
+            Messages.Add(new CMessage() { Message = message.Message, MessageType = message.MessageType });
         }
     }
 

@@ -1,17 +1,12 @@
 ﻿using BankReportingDb.Context;
-using BankReportingLibrary.BL.Transaction.Models;
 using BankReportingLibrary.BL.Models;
 using BankReportingLibrary.BL.Reporting;
+using BankReportingLibrary.BL.Transaction.Models;
+using BankReportingLibrary.BL.Transaction.Services;
 using BankReportingLibrary.Models.CoreModels;
 using BankReportingLibrary.Nomen.Consts;
 using BankReportingLibrary.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using BankReportingLibrary.BL.Transaction.Services;
 
 namespace BankReportingLibrary.BL.Transaction;
 
@@ -86,7 +81,7 @@ public class TransactionAdp : DbClassRoot
             };
 
             // Commit
-            await tran.CommitAsync();
+            await tran.CommitAsync().ConfigureAwait(false);
         }
 
         // Return
@@ -127,7 +122,8 @@ public class TransactionAdp : DbClassRoot
                 .ConfigureAwait(false);
 
             // Commit
-            await tran.CommitAsync();
+            await tran.CommitAsync()
+                .ConfigureAwait(false);
         }
 
         // Check
@@ -179,7 +175,7 @@ public class TransactionAdp : DbClassRoot
         CancellationToken ct)
     {
         // Import
-        var res = await _xmlImport.Value.ImportAsync(model)
+        var res = await _xmlImport.Value.ImportAsync(model, ct)
             .ConfigureAwait(false);
 
         var messages = res.Messages;

@@ -25,6 +25,10 @@
       {
          "Name": "[dbo].[r_transaction]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[r_transaction_file]",
+         "ObjectType": 0
       }
    ],
    "UiHint": null,

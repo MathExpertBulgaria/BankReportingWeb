@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BankReportingLibrary.BL.Models;
 using System.Xml.Serialization;
 
 namespace BankReportingLibrary.BL.Transaction.Models;
@@ -13,10 +9,11 @@ namespace BankReportingLibrary.BL.Transaction.Models;
 [XmlRoot("Operation")]
 public class TransactionsFileModel
 {
-    // File date
+    public DownloadFileModel? File { get; set; }
     public DateOnly FileDate { get; set; }
     // Transactions
     public List<TransactionFileModel> Transactions { get; set; } = new();
+    public DateTime? DateCreated { get; set; }
 }
 
 /// <summary>
