@@ -81,7 +81,8 @@ public class TransactionAdp : DbClassRoot
             };
 
             // Commit
-            await tran.CommitAsync().ConfigureAwait(false);
+            await tran.CommitAsync()
+                .ConfigureAwait(false);
         }
 
         // Return
