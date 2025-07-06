@@ -31,6 +31,27 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/datepicker';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { LuxonDateModule, MAT_LUXON_DATE_ADAPTER_OPTIONS } from '@angular/material-luxon-adapter';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+
+const MY_NATIVE_DATE_FORMATS = {
+  parse: {
+    dateInput: [ 'LL/dd/yyyy' ],
+    timeInput: [ 'HH:mm' ]
+  },
+  display: {
+    dateInput: 'LL/dd/yyyy',
+    monthYearLabel: 'LLL y',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'LLLL y',
+    timeInput: 'HH:mm',
+    timeOptionLabel: 'HH:mm'
+  }
+};
 
 @NgModule({
   declarations: [
@@ -65,11 +86,19 @@ import { MatDatepickerModule, MatDatepickerToggle } from '@angular/material/date
     MatSelectModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatDatepickerToggle
+    MatDatepickerToggle,
+    MatDatepickerModule,
+    LuxonDateModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule
   ],
   providers: [
     MatIconRegistry,
-    provideHttpClient()
+    provideHttpClient(),
+    { provide: MAT_DATE_FORMATS, useValue: MY_NATIVE_DATE_FORMATS },
+    { provide: MAT_LUXON_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true, firstDayOfWeek: 7 } },
   ],
   bootstrap: [AppComponent]
 })

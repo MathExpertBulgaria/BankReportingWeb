@@ -1,1 +1,32 @@
-<p>transaction-table works!</p>
+<!-- TABLE DIV -->
+<div>
+    <!-- DIV FOR GENERAL STYLING OF A TABLE-->
+    <div class="mat-table-container">
+      <table mat-table [dataSource]="dataSource" class="resTable" matSort>
+
+        <!-- Transaction column -->
+        <ng-container matColumnDef="id">
+          <th *matHeaderCellDef mat-sort-header class="center">
+            {{ 'Transaction' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="left">
+            <h3>{{ row.amount | uppercase }}</h3>
+            {{ row.createDate | date: 'MMM dd yyyy HH:mm' | uppercase }} {{ row.beneficiaryiban | uppercase}}
+          </td>
+        </ng-container>
+  
+        <!-- Angular Material render table commands-->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  <!--SHOWN IN CASE OF NO RESULTS-->
+  <div *ngIf="!hasResults">
+    {{ 'No data' | uppercase }}
+  </div>
+  <!--DIV FOR PAGING-->
+  <div>
+    <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="usersPageSize" (page)="onPageSizeChange($event)">
+    </mat-paginator>
+  </div>
+  </div>

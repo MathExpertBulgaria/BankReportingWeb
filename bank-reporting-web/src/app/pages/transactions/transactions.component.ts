@@ -3,6 +3,8 @@ import { createDORfromError, createDORfromObj, OperationAlert } from '../../mode
 import { SearchTransactionModel } from '../../models/transaction/search-transaction-model';
 import { finalize, Subscription } from 'rxjs';
 import { TransactionService } from '../../services/transaction.service';
+import { ResModel } from '../../models/core/res-model';
+import { TransactionModel } from '../../models/transaction/transaction-model';
 
 @Component({
   selector: 'app-transactions',
@@ -17,7 +19,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   public isExpanded = true;
 
   // Subscriptions
-  subSearh: Subscription | null = null;
+  subGet: Subscription | null = null;
+  subSearch: Subscription | null = null;
 
   constructor(private srv: TransactionService) {
 
@@ -27,7 +30,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.showSpinner = true;
     
     // Call server
-    this.subSearh = this.srv.get().pipe(
+    this.subGet = this.srv.get().pipe(
       finalize(() => {
         this.showSpinner = false;
       })
@@ -50,11 +53,35 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // Free
-    this.subSearh?.unsubscribe();
+    this.subGet?.unsubscribe();
+    this.subSearch?.unsubscribe();
   }
 
   onSearch(event: any) {
     const model = event as SearchTransactionModel;
+
+    this.showSpinner = true;
+    
+    // Call server
+    this.subSearch = this.srv.search(model).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+      })
+    )
+    .subscribe({
+      next: (res: any) => {
+        // Set data
+        if (res.data) {
+          // Set
+          this.srv.srcRes.next(res.data);
+        } else {
+          this.oprRes = createDORfromObj<ResModel<TransactionModel>>(res).getAlerts();
+        }
+      },
+      error: (err: any) => {
+        this.oprRes = createDORfromError<ResModel<TransactionModel>>(err).getAlerts();
+      }
+    });
   }
 
   onCsv(event: any) {

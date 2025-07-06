@@ -1,25 +1,20 @@
 <app-operation-result *ngIf="oprRes" [dor]="oprRes"></app-operation-result>
 
+<br/>
+
 <!-- Search -->
-<mat-expansion-panel [(expanded)]="isExpanded">
-    <mat-expansion-panel-header>
-      {{ 'Search transactions' | uppercase }}
-    </mat-expansion-panel-header>
-  
-    <!-- Search form-->
-    <app-search-transaction 
-      (search)="onSearch($event)" (csv)="onCsv($event)" (import)="onImport($event)">
-    </app-search-transaction>
-</mat-expansion-panel>
+<app-search-transaction 
+    (search)="onSearch($event)" (csv)="onCsv($event)" (import)="onImport($event)">
+</app-search-transaction>
 
 <div>&nbsp;</div>
 
+<!--Results table-->
+<mat-card appearance="outlined" class="mat-card" *ngIf="!showSpinner">
+    <mat-card-content>
+      <app-transaction-table></app-transaction-table>
+    </mat-card-content>
+</mat-card>
+
 <!-- SPINNER - WAITING FOR RESULTS -->
 <app-progress-undeterminate [showSpinner]="showSpinner"></app-progress-undeterminate>
-
-<!--Results table-->
-<!-- <mat-card appearance="outlined" *ngIf="showTable">
-    <mat-card-content>
-      <app-check-search-table (view)="onView($event)" (pdf)="onPdf($event)"></app-check-search-table>
-    </mat-card-content>
-</mat-card> -->

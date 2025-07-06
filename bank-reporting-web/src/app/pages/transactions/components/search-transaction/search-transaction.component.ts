@@ -3,6 +3,7 @@ import { SearchTransactionModel } from '../../../../models/transaction/search-tr
 import { TransactionService } from '../../../../services/transaction.service';
 import { FormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ScreenService } from '../../../../services/screen.service';
 
 @Component({
   selector: 'app-search-transaction',
@@ -17,6 +18,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
   // Subscription
   subSrcModel: Subscription | null = null;
+  subIsSmallScreen: Subscription | null = null;
 
   // Search model
   public srcModel: SearchTransactionModel | null = null;
@@ -27,11 +29,13 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   @Output() public import = new EventEmitter<FormData>();
 
   public showSpinner = false;
+  public isSmallScreen = false;
 
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
   constructor(private fb: UntypedFormBuilder,
-    private srv: TransactionService
+    private srv: TransactionService,
+    private screenSrv: ScreenService
   ) {
 
   }
@@ -45,10 +49,16 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
     // Create form
     this.createForm();
+
+    this.screenSrv.isSmallScreen.subscribe(x => {
+      this.isSmallScreen = x;
+    });
   }
 
   ngOnDestroy(): void {
-      this.subSrcModel?.unsubscribe();
+    // Free
+    this.subSrcModel?.unsubscribe();
+    this.subIsSmallScreen?.unsubscribe();
   }
 
   private createForm() {
@@ -61,6 +71,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
       idDirection: [null],
       amountFrom: [null],
       amountTo: [null],
+      idCcy: [null],
       debtorIban: [null],
       beneficiaryIban: [null],
       idStatus: [null],
@@ -121,7 +132,8 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
   public onReset(): void {
     this.form?.reset();
-    this.srv?.srcModel.next(null);
+    //this.srv?.srcModel.next(null);
+    this.srv?.srcRes.next(null);
   }
 }
 

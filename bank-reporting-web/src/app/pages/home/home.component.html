@@ -1,8 +1,5 @@
 <app-operation-result *ngIf="oprRes" [dor]="oprRes"></app-operation-result>
 
-<!-- SPINNER - WAITING FOR RESULTS -->
-<app-progress-undeterminate [showSpinner]="showSpinner"></app-progress-undeterminate>
-
 <div class="fxRowCenter">
     <!-- Partners -->
     <mat-card class="menu-card" role="button">
@@ -59,3 +56,6 @@
     </mat-card>
     <br/>
 </div>
+
+<!-- SPINNER - WAITING FOR RESULTS -->
+<app-progress-undeterminate [showSpinner]="showSpinner"></app-progress-undeterminate>

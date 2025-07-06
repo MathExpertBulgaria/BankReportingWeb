@@ -18,6 +18,8 @@ export class TransactionService {
 
   // Seach model
   public srcModel: BehaviorSubject<SearchTransactionModel | null> = new BehaviorSubject<SearchTransactionModel | null>(null);
+  // Search result
+  public srcRes: BehaviorSubject<ResModel<TransactionModel> | null> = new BehaviorSubject<ResModel<TransactionModel> | null>(null);
 
   constructor(private http: HttpClient) {
 

@@ -26,6 +26,8 @@ html{
   ));
 }
 
+
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -57,4 +59,8 @@ div.short {
 
 input.upper {
   text-transform: uppercase;
+}
+
+.mat-card {
+  margin: 0px 25px;
 }
