@@ -1,0 +1,154 @@
+<form [formGroup]="form" *ngIf="srcModel" class="form-flex">
+    <!-- Partner -->
+    <!-- <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'Partner' | uppercase }}</mat-label>
+        <mat-select placeholder="{{ 'Partner' | uppercase }}" required
+            formControlName="idPartner" [appFocus]="true">
+            <mat-option [value]=null>
+            {{ 'Partner' | uppercase }}
+            </mat-option>
+            <mat-option  *ngFor="let obj of srcModel!.nomen!.nCheckType" [value]="obj.value">
+            <span>{{ obj.description }}</span>
+            </mat-option>
+        </mat-select>
+        <mat-hint>{{ 'Enter partner' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('idPartner')">{{ formErrorType('idPartner') | uppercase }}</mat-error>
+    </mat-form-field> -->
+
+    <!-- Create date from -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'From date' | uppercase }}</mat-label>
+        <input matInput formControlName="createDateFrom" [matDatepicker]="picker1" 
+            maxlength="20" autocomplete="off">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-hint>{{ 'Enter from date' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('createDateFrom')">{{ formErrorType('createDateFrom') | uppercase }}</mat-error>
+    </mat-form-field>
+
+    <!-- Create date to -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'To date' | uppercase }}</mat-label>
+        <input matInput formControlName="createDateTo" [matDatepicker]="picker2" 
+            maxlength="20" autocomplete="off">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-hint>{{ 'Enter to date' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('createDateTo')">{{ formErrorType('createDateTo') | uppercase }}</mat-error>
+    </mat-form-field>
+
+    <!-- Direction -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'Direction' | uppercase }}</mat-label>
+        <mat-select placeholder="{{ 'Direction' | uppercase }}"
+            formControlName="idDirection">
+            <mat-option [value]=null>
+            {{ 'Direction' | uppercase }}
+            </mat-option>
+            <mat-option  *ngFor="let obj of srcModel!.nomen!.nTransactionDirection" [value]="obj.value">
+            <span>{{ obj.description }}</span>
+            </mat-option>
+        </mat-select>
+        <mat-hint>{{ 'Choose direction' | uppercase }}</mat-hint>
+    </mat-form-field>
+
+    <!-- Amount from -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'From amount' | uppercase }}</mat-label>
+        <input type="number" matInput formControlName="amountFrom" />
+        <mat-hint>{{ 'Enter from amount' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('amountFrom')">{{ formErrorType('amountFrom') | uppercase }}</mat-error>
+    </mat-form-field>
+
+    <!-- Amount to -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'To amount' | uppercase }}</mat-label>
+        <input type="number" matInput formControlName="amountTo" />
+        <mat-hint>{{ 'Enter to amount' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('amountTo')">{{ formErrorType('amountTo') | uppercase }}</mat-error>
+    </mat-form-field>
+
+    <!-- Currency -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'Currency' | uppercase }}</mat-label>
+        <mat-select placeholder="{{ 'Currency' | uppercase }}"
+            formControlName="idCcy">
+            <mat-option [value]=null>
+            {{ 'Currency' | uppercase }}
+            </mat-option>
+            <mat-option  *ngFor="let obj of srcModel!.nomen!.nCurrency" [value]="obj.value">
+            <span>{{ obj.description }}</span>
+            </mat-option>
+        </mat-select>
+        <mat-hint>{{ 'Choose currency' | uppercase }}</mat-hint>
+    </mat-form-field>
+
+    <!-- Debtor iban -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'Debtor iban' | uppercase }}</mat-label>
+        <input type="text" matInput formControlName="debtorIban" maxlength="22" />
+        <mat-hint>{{ 'Enter debtor iban' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('debtorIban')">{{ formErrorType('debtorIban') | uppercase }}</mat-error>
+    </mat-form-field>
+          
+    <!-- Beneficiary iban -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'Beneficiary iban' | uppercase }}</mat-label>
+        <input type="text" matInput formControlName="beneficiaryIban" maxlength="22" />
+        <mat-hint>{{ 'Enter beneficiary iban' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('beneficiaryIban')">{{ formErrorType('beneficiaryIban') | uppercase }}</mat-error>
+    </mat-form-field>
+
+    <!-- Status -->
+    <mat-form-field class="form-flex-item">
+        <mat-checkbox formControlName="idStatus">{{ 'Status' | uppercase }}"</mat-checkbox>
+    </mat-form-field>
+
+    <!-- External id -->
+    <mat-form-field class="form-flex-item">
+        <mat-label>{{ 'External id' | uppercase }}</mat-label>
+        <input type="text" matInput formControlName="externalId" maxlength="50" />
+        <mat-hint>{{ 'Enter external id' | uppercase }}</mat-hint>
+        <mat-error *ngIf="formNotValid('externalId')">{{ formErrorType('externalId') | uppercase }}</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-divider></mat-divider>
+
+    <br>
+
+    <div class="button-line">
+
+      <button mat-button color="accent" (click)="onReset()" type="reset">
+        <mat-icon inline fontIcon="fa-broom" fontSet="far"></mat-icon>
+        &nbsp;&nbsp;&nbsp;{{ 'Reset' | uppercase }}
+      </button>
+
+      <div fxFlex="1 1 auto">&nbsp;</div>
+
+      <button mat-icon-button color="primary" type="button" (click)="onBrowseFiles()" 
+        matTooltip="{{ 'Import from XML' | uppercase }}">
+        <mat-icon inline fontIcon="fa-file-import" fontSet="far"></mat-icon>
+        <input  type="file" #fileInput style="display: none;" (change)="importFile()" accept=".*xml" />
+      </button>
+
+      &nbsp;
+
+      <button at-icon-button color="primary" type="button" (click)="onCsv()"
+          matTooltip="{{ 'Export CSV' | uppercase }}">
+          <mat-icon fontSet="far" fontIcon="fa-file-excel" inline style="font-size: 25px;"></mat-icon>
+      </button>
+
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+
+      <button mat-stroked-button color="primary" (click)="onSearch()" type="submit">
+        <mat-icon inline fontIcon="fa-search" fontSet="far"></mat-icon>
+        &nbsp;&nbsp;&nbsp;{{ 'Search' | uppercase}}
+      </button>
+
+    </div>
+</form>

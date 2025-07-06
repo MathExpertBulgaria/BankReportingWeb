@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
+using System.Text;
 
 namespace BankReportingLibrary.BL.Reporting;
 
@@ -19,9 +20,8 @@ public class CsvReport
         // Locals
         byte[] res;
 
-        using var memoryStream = new MemoryStream();
-        using (var writer = new StreamWriter(memoryStream))
-        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        using (var sw = new StringWriter())
+        using (var csv = new CsvWriter(sw, CultureInfo.InvariantCulture))
         {
             // Map
             csv.Context.RegisterClassMap(new M());
@@ -33,8 +33,7 @@ public class CsvReport
             // Data
             await csv.WriteRecordsAsync(model);
 
-            // Set
-            res = memoryStream.ToArray();
+            res = Encoding.UTF8.GetBytes(sw.ToString());
         }
 
         // Return

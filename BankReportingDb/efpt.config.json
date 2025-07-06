@@ -15,6 +15,14 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[n_currency]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[n_transaction_direction]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[r_merchant]",
          "ObjectType": 0
       },

@@ -17,5 +17,5 @@ public class CMessage
 
     public string Message { get; set; } = string.Empty;
 
-    public CMessageType MessageType { get; set; } = CMessageType.Generic;
+    public CMessageType MessageType { get; set; } = CMessageType.Info;
 }

@@ -1,0 +1,6 @@
+<app-alert *ngFor="let alert of dor" [color]="alert.accent" [fontIcon]="alert.fontIcon" [fontSet]="alert.fontSet">
+    <ng-container *ngIf="alert.key;else templateSimple">
+        {{ alert.message }}
+    </ng-container>
+    <ng-template #templateSimple>{{ alert.message }}</ng-template>
+</app-alert>

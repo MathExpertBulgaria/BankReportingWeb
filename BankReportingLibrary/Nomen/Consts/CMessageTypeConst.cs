@@ -5,9 +5,6 @@
 /// </summary>
 public enum CMessageType
 {
-    Generic = 0,
-    Info = 1,
-    Success = 2,
-    Warning = 3,
-    Error = 4
+    Info = 0,
+    Error = 1
 }

@@ -13,17 +13,17 @@ public partial class RTransaction
 
     public DateTime CreateDate { get; set; }
 
-    public string Direction { get; set; }
+    public int IdDirection { get; set; }
 
     public decimal Amount { get; set; }
 
-    public string Currency { get; set; }
+    public int IdCcy { get; set; }
 
     public string DebtorIban { get; set; }
 
     public string BeneficiaryIban { get; set; }
 
-    public string Status { get; set; }
+    public bool? Status { get; set; }
 
     public string ExternalId { get; set; }
 

@@ -121,7 +121,7 @@ public class PartnerAdp : DbClassRoot
         res.OperationStatus = OperationStatus.Success;
         res.Data = new DownloadFileModel()
         {
-            Filename = $"{Res.Partner.lCsvFilename}_{DateTime.Now.ToLongDateString()}.csv",
+            Filename = $"{Res.Partner.lCsvFilename}_{DateTime.Now.ToString(DateFormatConst.ISO_DATE)}.csv",
             ContentType = ContentTypeConst.Csv
         };
 

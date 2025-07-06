@@ -1,0 +1,60 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+// Mixin for elevation
+@mixin elevations() {
+  @for $elevation from 0 to 24 {
+    .mat-elevation-z#{$elevation} {
+       @include mat.elevation($elevation);
+    }
+  }
+}
+
+@include elevations();
+
+html{
+  height: 100%;
+
+  @include mat.theme((
+    color: (
+      primary: mat.$violet-palette,
+      tertiary: mat.$orange-palette,
+      theme-type: light,
+    ),
+    typography: Roboto,
+    density: 0
+  ));
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  height: 100%;
+  color: var(--mat-sys-on-surface);
+}
+
+/* --------------------- Forms ---------------------------------------------------  */
+mat-form-field.wide {
+  width: 98%;
+}
+
+div.wide {
+  width: 100%;
+}
+
+span.wide {
+  width: 100%;
+  display: inline-block;
+}
+
+mat-form-field.short {
+  width: 30%;
+}
+
+div.short {
+  width: 100%;
+}
+
+input.upper {
+  text-transform: uppercase;
+}

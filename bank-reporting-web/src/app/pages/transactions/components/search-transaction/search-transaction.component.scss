@@ -1,0 +1,10 @@
+.form-flex {
+    display: flex;
+    flex-direction: row;
+    gap: 35px 0px;
+    flex-wrap: wrap;
+}
+
+.form-flex-item {
+    max-width: 100px;
+}

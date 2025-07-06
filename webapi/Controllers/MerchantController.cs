@@ -27,7 +27,7 @@ public class MerchantController : RootController<MerchantAdp>
     /// <param name="model"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Search(SearchMerchantModel model)
     {
         try
@@ -50,7 +50,7 @@ public class MerchantController : RootController<MerchantAdp>
     /// <param name="model"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> GetById(ObjectRefModel model)
     {
         try
@@ -72,7 +72,7 @@ public class MerchantController : RootController<MerchantAdp>
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> GetCsv(SearchMerchantModel model)
     {
         try

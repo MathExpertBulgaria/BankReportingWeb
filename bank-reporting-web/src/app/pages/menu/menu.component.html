@@ -1,10 +1,35 @@
 <mat-toolbar class="sticky mat-elevation-z4">
-    <mat-toolbar-row class="flex-container ">
+    <mat-toolbar-row class="flex-container">
         <a [routerLink]="['']">
-            <img src="../assets/images/logo.svg" alt="logo"
-                style="padding-top: 7px;">
+            <img src="../assets/images/logo.svg" alt="{{ 'Bank reporting' | uppercase}}"
+                style="padding-top: 7px;" [ngClass]="isSmallScreen ? 'small-size' : 'normal-size'">
         </a>
         <span style="flex: auto;"></span>
-        Some link
+        <button mat-icon-button [matMenuTriggerFor]="matUser"
+            matTooltip="{{ 'Menu' | uppercase }}">
+            <mat-icon fontSet="fa" fontIcon="fa-bars"></mat-icon>
+        </button>
     </mat-toolbar-row>
 </mat-toolbar> 
+
+<router-outlet></router-outlet>
+
+<mat-menu #matUser="matMenu">
+    <a [routerLink]="['partners']" mat-menu-item>
+        <mat-icon fontSet="fa" fontIcon="fa-industry" style="font-size:22px;"></mat-icon>
+        <span style="padding: 0px 10px;">{{ 'Partners' | uppercase }}</span>
+    </a>
+    <a [routerLink]="['merchants']" mat-menu-item>
+        <mat-icon fontSet="fa" fontIcon="fa-users" style="font-size:22px;"></mat-icon>
+        <span style="padding: 0px 10px;">{{ 'Merchants' | uppercase }}</span>
+    </a>
+    <a [routerLink]="['transactions']" mat-menu-item>
+        <mat-icon fontSet="fa" fontIcon="fa-money" style="font-size:22px;"></mat-icon>
+        <span style="padding: 0px 10px;">{{ 'Transactions' | uppercase }}</span>
+    </a>
+    <mat-divider></mat-divider>
+    <a [routerLink]="['info']" mat-menu-item>
+        <mat-icon fontSet="fa" fontIcon="fa-info" style="font-size:22px;"></mat-icon>
+        <span style="padding: 0px 10px;">{{ 'Information' | uppercase }}</span>
+    </a>
+</mat-menu>

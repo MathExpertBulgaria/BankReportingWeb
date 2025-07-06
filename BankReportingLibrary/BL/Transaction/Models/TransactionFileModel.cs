@@ -24,7 +24,7 @@ public class TransactionFileModel
     public string? ExternalId { get; set; }
     public DateTime? CreateDate { get; set; }
     public TransactionFileAmount? Amount { get; set; }
-    public string? Status { get; set; }
+    public bool? Status { get; set; }
     public TransactionFileParty? Debtor { get; set; }
     public TransactionFileParty? Beneficiary { get; set; }
 }

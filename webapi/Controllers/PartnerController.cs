@@ -27,7 +27,7 @@ public class PartnerController : RootController<PartnerAdp>
     /// <param name="model"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Search(SearchPartnerModel model)
     {
         try
@@ -50,7 +50,7 @@ public class PartnerController : RootController<PartnerAdp>
     /// <param name="model"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> GetById(ObjectRefModel model)
     {
         try
@@ -72,7 +72,7 @@ public class PartnerController : RootController<PartnerAdp>
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> GetCsv(SearchPartnerModel model)
     {
         try

@@ -14,7 +14,8 @@ public class TransactionAdp : DbClassRoot
 {
     // Report
     private readonly Lazy<CsvReport> _csvReport;
-    // Import
+    // Services
+    private readonly Lazy<TransactionNomenSrv> _nomenSrv;
     private readonly Lazy<ImportTransactionSrv> _xmlImport;
 
     /// <summary>
@@ -25,13 +26,34 @@ public class TransactionAdp : DbClassRoot
     public TransactionAdp(DB Ent,
         // Report
         Lazy<CsvReport> csvRport,
-        // Import
+        // Services
+        Lazy<TransactionNomenSrv> nomenSrv,
         Lazy<ImportTransactionSrv> xmlImport) : base(Ent)
     {
         // Report
         _csvReport = csvRport;
-        // Import
+        // Services
+        _nomenSrv = nomenSrv;
         _xmlImport = xmlImport;
+    }
+
+    /// <summary>
+    /// Get
+    /// </summary>
+    /// <returns></returns>
+    public async Task<DataOperationResult<SearchTransactionModel>> Search()
+    {
+        // Locals
+        var res = new DataOperationResult<SearchTransactionModel>();
+        res.OperationStatus = OperationStatus.Success;
+        res.Data = new SearchTransactionModel();
+
+        // Nomen
+        res.Data.Nomen = await _nomenSrv.Value.GetNomens()
+            .ConfigureAwait(false);
+
+        // Return
+        return res;
     }
 
     /// <summary>
@@ -59,12 +81,12 @@ public class TransactionAdp : DbClassRoot
                             model.IdMerchant == x.IdMerchant &&
                             (!createDateFrom.HasValue || createDateFrom <= x.CreateDate) &&
                             (!createDateTo.HasValue || createDateTo >= x.CreateDate) &&
-                            (string.IsNullOrEmpty(model.Direction) || x.Direction.Contains(model.Direction)) &&
+                            (!model.IdDirection.HasValue || x.IdDirection == model.IdDirection) &&
                             (!model.AmountFrom.HasValue || model.AmountFrom.Value <= x.Amount) &&
                             (!model.AmountTo.HasValue || model.AmountTo.Value >= x.Amount) &&
                             (string.IsNullOrEmpty(model.DebtorIban) || x.DebtorIban.Contains(model.DebtorIban)) &&
                             (string.IsNullOrEmpty(model.BeneficiaryIban) || x.BeneficiaryIban.Contains(model.BeneficiaryIban)) &&
-                            (string.IsNullOrEmpty(model.Status) || x.Status.Contains(model.Status)) &&
+                            (!model.Status.HasValue || x.Status == model.Status) &&
                             (string.IsNullOrEmpty(model.ExternalId) || x.ExternalId.Contains(model.ExternalId))
                             )
                         // Paging
@@ -74,7 +96,14 @@ public class TransactionAdp : DbClassRoot
                         {
                             Id = x.Id,
                             CreateDate = x.CreateDate,
-                            Direction = x.Direction
+                            IdDirection = x.IdDirection,
+                            Amount = x.Amount,
+                            IdCcy = x.IdCcy,
+                            DebtorIban = x.DebtorIban,
+                            BeneficiaryIban = x.BeneficiaryIban,
+                            Status = x.Status,
+                            ExternalId = x.ExternalId,
+                            MerchantName = x.IdMerchantNavigation.Name
                         })
                         .ToListAsync()
                         .ConfigureAwait(false)
@@ -110,9 +139,9 @@ public class TransactionAdp : DbClassRoot
                 {
                     Id = x.Id,
                     CreateDate = x.CreateDate,
-                    Direction = x.Direction,
+                    IdDirection = x.IdDirection,
                     Amount = x.Amount,
-                    Currency = x.Currency,
+                    IdCcy = x.IdCcy,
                     DebtorIban = x.DebtorIban,
                     BeneficiaryIban = x.BeneficiaryIban,
                     Status = x.Status,
@@ -149,7 +178,7 @@ public class TransactionAdp : DbClassRoot
         res.OperationStatus = OperationStatus.Success;
         res.Data = new DownloadFileModel()
         {
-            Filename = $"{Res.Transaction.lCsvFilename}_{DateTime.Now.ToLongDateString()}.csv",
+            Filename = $"{Res.Transaction.lCsvFilename}_{DateTime.Now.ToString(DateFormatConst.ISO_DATE)}.csv",
             ContentType = ContentTypeConst.Csv
         };
 

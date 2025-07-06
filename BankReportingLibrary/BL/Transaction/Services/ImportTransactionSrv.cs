@@ -14,8 +14,15 @@ namespace BankReportingLibrary.BL.Transaction.Services;
 /// </summary>
 public class ImportTransactionSrv : DbClassRoot
 {
-    public ImportTransactionSrv(DB Ent) : base(Ent)
+    // Services
+    private readonly Lazy<TransactionNomenSrv> _nomenSrv;
+
+    public ImportTransactionSrv(DB Ent, 
+        // Services
+        Lazy<TransactionNomenSrv> nomenSrv) : base(Ent)
     {
+        // Services
+        _nomenSrv = nomenSrv;
     }
 
     /// <summary>
@@ -33,6 +40,11 @@ public class ImportTransactionSrv : DbClassRoot
 
         string xml = System.Text.Encoding.UTF8.GetString(model.File.Contents);
         var data = xml.FromXML<TransactionsFileModel>();
+
+        // Validate
+
+        var nomen = await _nomenSrv.Value.GetNomens()
+            .ConfigureAwait(false);
 
         // Transaction file
         var dbTransactionFile = new RTransactionFile()
@@ -52,9 +64,9 @@ public class ImportTransactionSrv : DbClassRoot
                 Amount = x.Amount.Value,
                 BeneficiaryIban = x.Beneficiary.Iban,
                 CreateDate = x.CreateDate!.Value,
-                Currency = x.Amount.Currency,
+                IdCcy = nomen.NCurrency.First(t => t.Description == x.Amount.Currency).Value,
                 DebtorIban = x.Debtor.Iban,
-                Direction = x.Amount.Direction,
+                IdDirection = nomen.NTransactionDirection.First(t => t.Description == x.Amount.Direction).Value,
                 ExternalId = x.ExternalId,
                 Status = x.Status,
                 IdMerchant = model.Search.IdMerchant,

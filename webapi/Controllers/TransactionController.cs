@@ -25,10 +25,32 @@ public class TransactionController : RootController<TransactionAdp>
     /// <summary>
     /// Search
     /// </summary>
-    /// <param name="model"></param>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpGet("[action]")]
+    public async Task<IActionResult> Search()
+    {
+        try
+        {
+            // Search
+            var res = await Service.Search();
+
+            // Return
+            return Ok(res);
+        }
+        catch (Exception err)
+        {
+            return HandleError("TransactionController.Search get", err);
+        }
+    }
+
+    /// <summary>
+    /// Search
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Search(SearchTransactionModel model)
     {
         try
@@ -51,7 +73,7 @@ public class TransactionController : RootController<TransactionAdp>
     /// <param name="model"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> GetById(ObjectRefModel model)
     {
         try
@@ -73,7 +95,7 @@ public class TransactionController : RootController<TransactionAdp>
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> GetCsv(SearchTransactionModel model)
     {
         try
@@ -94,7 +116,7 @@ public class TransactionController : RootController<TransactionAdp>
     /// Import xml
     /// </summary>
     /// <returns></returns>
-    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> ImportXml(CancellationToken ct)
     {
         ImportTransactionModel model = new();

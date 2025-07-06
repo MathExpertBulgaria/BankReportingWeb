@@ -1,1 +1,61 @@
-<p>home works!</p>
+<app-operation-result *ngIf="oprRes" [dor]="oprRes"></app-operation-result>
+
+<!-- SPINNER - WAITING FOR RESULTS -->
+<app-progress-undeterminate [showSpinner]="showSpinner"></app-progress-undeterminate>
+
+<div class="fxRowCenter">
+    <!-- Partners -->
+    <mat-card class="menu-card" role="button">
+        <mat-card-header>
+            <mat-card-title>
+                <span class="mat-h1">{{ 'Partners' | uppercase }}</span>
+            </mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="./assets/images/partners.webp" [routerLink]="['partners']" class="img-link">
+        <mat-card-content>
+            <p>
+                {{ 'Our company partners' | uppercase }}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button (click)="onGetPartnerCsv()">{{ 'Export' | uppercase }}</button>
+        </mat-card-actions>
+    </mat-card>
+
+    <!-- Merchants -->
+    <mat-card class="menu-card" role="button">
+        <mat-card-header>
+            <mat-card-title>
+                <span class="mat-h1">{{ 'Merchants' | uppercase }}</span>
+            </mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="./assets/images/merchants.webp" [routerLink]="['merchants']" class="img-link">
+        <mat-card-content>
+            <p>
+                {{ 'Partner\'s merchants' | uppercase }}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button (click)="onGetMerchantCsv()">{{ 'Export' | uppercase }}</button>
+        </mat-card-actions>
+    </mat-card>
+
+    <!-- Transactions -->
+    <mat-card class="menu-card" role="button">
+        <mat-card-header>
+            <mat-card-title>
+                <span class="mat-h1">{{ 'Transactions' | uppercase }}</span>
+            </mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="./assets/images/transactions.webp" [routerLink]="['transactions']" class="img-link">
+        <mat-card-content>
+            <p>
+                {{ 'Search or import transactions' | uppercase }}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button>{{ 'Search' | uppercase }}</button>
+        </mat-card-actions>
+    </mat-card>
+    <br/>
+</div>

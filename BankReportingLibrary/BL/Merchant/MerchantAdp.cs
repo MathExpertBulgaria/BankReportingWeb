@@ -52,7 +52,6 @@ public class MerchantAdp : DbClassRoot
             {
                 Res = await Db.RMerchants.AsNoTracking()
                         .Where(x =>
-                            model.IdPartner == x.IdPartner &&
                             (string.IsNullOrEmpty(model.Name) || x.Name.Contains(model.Name)) &&
                             (!boardingdateFrom.HasValue || boardingdateFrom <= x.BoardingDate) &&
                             (!boardingdateTo.HasValue || boardingdateTo >= x.BoardingDate) &&
@@ -64,7 +63,13 @@ public class MerchantAdp : DbClassRoot
                         .Select(x => new MerchantModel()
                         {
                             Id = x.Id,
-                            Name = x.Name
+                            Name = x.Name,
+                            BoardingDate = x.BoardingDate,
+                            Url = x.Url,
+                            Country = x.Country,
+                            Address1 = x.Address1,
+                            Address2 = x.Addres2,
+                            PartnerName = x.IdPartnerNavigation.Name
                         })
                         .ToListAsync()
                         .ConfigureAwait(false)
@@ -137,7 +142,7 @@ public class MerchantAdp : DbClassRoot
         res.OperationStatus = OperationStatus.Success;
         res.Data = new DownloadFileModel()
         {
-            Filename = $"{Res.Merchant.lCsvFilename}_{DateTime.Now.ToLongDateString()}.csv",
+            Filename = $"{Res.Merchant.lCsvFilename}_{DateTime.Now.ToString(DateFormatConst.ISO_DATE)}.csv",
             ContentType = ContentTypeConst.Csv
         };
 
