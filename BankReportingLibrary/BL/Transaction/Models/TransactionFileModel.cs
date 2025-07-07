@@ -9,16 +9,15 @@ namespace BankReportingLibrary.BL.Transaction.Models;
 [XmlRoot("Operation")]
 public class TransactionsFileModel
 {
-    public DownloadFileModel? File { get; set; }
     public DateOnly FileDate { get; set; }
     // Transactions
     public List<TransactionFileModel> Transactions { get; set; } = new();
-    public DateTime? DateCreated { get; set; }
 }
 
 /// <summary>
 /// Transaction file model
 /// </summary>
+[XmlRoot("Transaction")]
 public class TransactionFileModel
 {
     public string? ExternalId { get; set; }
@@ -45,6 +44,8 @@ public class TransactionFileAmount
 public class TransactionFileParty
 {
     public string? BankName { get; set; }
+    [XmlElement("BIC")]
     public string? Bic { get; set; }
+    [XmlElement("IBAN")]
     public string? Iban { get; set; }
 }

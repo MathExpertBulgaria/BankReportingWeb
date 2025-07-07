@@ -15,6 +15,7 @@ export class TransactionService {
   // Url
   public static searchUrl = 'api/transaction/Search';
   public static getCsvUrl = 'api/transaction/GetCsv';
+  public static importUrl = 'api/transaction/ImportXml';
 
   // Seach model
   public srcModel: BehaviorSubject<SearchTransactionModel | null> = new BehaviorSubject<SearchTransactionModel | null>(null);
@@ -43,5 +44,11 @@ export class TransactionService {
   public getCsv(model: SearchTransactionModel): Observable<DataOperationResult<DownloadFileModel>> {
     // Call server
     return this.http.post<DataOperationResult<DownloadFileModel>>(TransactionService.getCsvUrl, model);
+  }
+
+  // Import xml
+  public import(model: SearchTransactionModel): Observable<DataOperationResult<ResModel<TransactionModel>>> {
+    // Call server
+    return this.http.post<DataOperationResult<ResModel<TransactionModel>>>(TransactionService.importUrl, model);
   }
 }

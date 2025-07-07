@@ -27,6 +27,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   subSearch: Subscription | null = null;
   subShowRes: Subscription | null = null;
   subCsv: Subscription | null = null;
+  subImport: Subscription | null = null;
 
   constructor(private srv: TransactionService,
     private appSrv: AppService
@@ -68,6 +69,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.subGet?.unsubscribe();
     this.subSearch?.unsubscribe();
     this.subShowRes?.unsubscribe();
+    this.subCsv?.unsubscribe();
+    this.subImport?.unsubscribe();
   }
 
   onSearch(event: any) {
@@ -126,5 +129,29 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   onImport(event: any) {
     const model = event as SearchTransactionModel;
+
+    this.showSpinner = true;
+    
+    // Call server
+    this.subImport = this.srv.import(model).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+      })
+    )
+    .subscribe({
+      next: (res: any) => {
+        // Set data
+        if (res.data) {
+          // Set
+          this.srv.srcRes.next(res.data);
+          this.srv.showRes.next(true);
+        } else {
+          this.oprRes = createDORfromObj<ResModel<TransactionModel>>(res).getAlerts();
+        }
+      },
+      error: (err: any) => {
+        this.oprRes = createDORfromError<ResModel<TransactionModel>>(err).getAlerts();
+      }
+    });
   }
 }
