@@ -9,15 +9,16 @@ namespace BankReportingLibrary.BL.Transaction.Models;
 [XmlRoot("Operation")]
 public class TransactionsFileModel
 {
-    public DateOnly FileDate { get; set; }
+    public DateTime FileDate { get; set; }
     // Transactions
+    [XmlArray("Transactions"), XmlArrayItem("Transaction")]
     public List<TransactionFileModel> Transactions { get; set; } = new();
 }
 
 /// <summary>
 /// Transaction file model
 /// </summary>
-[XmlRoot("Transaction")]
+[XmlType("Transaction")]
 public class TransactionFileModel
 {
     public string? ExternalId { get; set; }

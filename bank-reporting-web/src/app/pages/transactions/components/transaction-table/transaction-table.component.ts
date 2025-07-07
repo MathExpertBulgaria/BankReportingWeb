@@ -15,7 +15,7 @@ import { TransactionModel } from '../../models/transaction-model';
 export class TransactionTableComponent implements OnInit, OnDestroy {
 
   // Table structure
-  displayedColumns: string[] = ['id'];
+  displayedColumns: string[] = ['debtorIban', 'beneficiaryIban', 'createDate', 'amount', 'externald', 'status'];
 
   dataSource: MatTableDataSource<TransactionModel>;
 

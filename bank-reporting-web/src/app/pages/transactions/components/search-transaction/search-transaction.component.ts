@@ -187,7 +187,6 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   //#region Filter partner
 
   public onPartnerSearch(val: string) {
-    console.log(val)
     // Check
     if (val.length < 3) {
       // return
@@ -269,7 +268,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   }
 
   public onMerchantSelected(val: number) {
-    const selection = this.partners?.filter(x => x.id == val)[0]!;
+    const selection = this.merchants?.filter(x => x.id == val)[0]!;
 
     this.form.controls['idMerchant'].setValue(val);
     this.form.controls['merchantName'].setValue(selection.name);

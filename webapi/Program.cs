@@ -3,6 +3,7 @@ using BankReportingLibrary.Utils;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using webapi.Code;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,5 +41,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRequestCulture();
 
 app.Run();

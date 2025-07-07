@@ -5,7 +5,7 @@
       <table mat-table [dataSource]="dataSource" class="resTable" matSort>
 
         <!-- Transaction column -->
-        <ng-container matColumnDef="id">
+        <!-- <ng-container matColumnDef="id">
           <th *matHeaderCellDef class="center">
             {{ 'Transactions' | uppercase }}
           </th>
@@ -19,6 +19,61 @@
                <mat-icon fontSet="fa" fontIcon="fa-check" inline matTooltip="{{ 'Successful' | uppercase }}" *ngIf="row.status"></mat-icon>
                <mat-icon fontSet="fa" fontIcon="fa-ban" inline matTooltip="{{ 'Not successful' | uppercase }}" *ngIf="!row.status"></mat-icon>
             </span>
+          </td>
+        </ng-container> -->
+        <!-- debtorIban column -->
+        <ng-container matColumnDef="debtorIban">
+          <th *matHeaderCellDef class="center">
+            {{ 'Debtor iban' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.debtorIban }}
+          </td>
+        </ng-container>
+        <!-- beneficiaryIban column -->
+        <ng-container matColumnDef="beneficiaryIban">
+          <th *matHeaderCellDef class="center">
+            {{ 'Beneficiary iban' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.beneficiaryIban }}
+          </td>
+        </ng-container>
+         <!-- createDate column -->
+        <ng-container matColumnDef="createDate">
+          <th *matHeaderCellDef class="center">
+            {{ 'Create date' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="center">
+            {{ row.createDate | date: 'MMM dd yyyy HH:mm' | uppercase }}
+          </td>
+        </ng-container>
+         <!-- amount column -->
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef class="center">
+            {{ 'Amount' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="right">
+            {{ row.amount.toFixed(2) }} {{ row.idCcy}} {{ row.idDirection}}
+          </td>
+        </ng-container>
+         <!-- External Id column -->
+        <ng-container matColumnDef="externald">
+          <th *matHeaderCellDef class="center">
+            {{ 'External Id' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.externalId | uppercase }}
+          </td>
+        </ng-container>
+         <!-- Status column -->
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef class="center">
+            {{ 'Status' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="center">
+             <mat-icon fontSet="fa" fontIcon="fa-check" inline matTooltip="{{ 'Successful' | uppercase }}" *ngIf="row.status"></mat-icon>
+             <mat-icon fontSet="fa" fontIcon="fa-ban" inline matTooltip="{{ 'Not successful' | uppercase }}" *ngIf="!row.status"></mat-icon>
           </td>
         </ng-container>
   

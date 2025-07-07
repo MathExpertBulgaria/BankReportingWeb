@@ -50,7 +50,7 @@ public class ImportTransactionSrv : DbClassRoot
             ContentType = model.File.ContentType,
             DateCreated = DateTime.Now,
             Name = model.File.Filename,
-            FileDate = data.FileDate.ToDateTime(new TimeOnly())
+            FileDate = data.FileDate
         };
 
         // Transactions
@@ -67,7 +67,6 @@ public class ImportTransactionSrv : DbClassRoot
                 ExternalId = x.ExternalId,
                 Status = x.Status,
                 IdMerchant = model.Search.IdMerchant!.Value,
-                IdTransactionFile = dbTransactionFile.Id
             }));
 
         // Transaction
@@ -83,6 +82,9 @@ public class ImportTransactionSrv : DbClassRoot
             // Add transaction
             for (var i = 0; i < dbTransactions.Count; i++)
             {
+                // Set
+                dbTransactions[i].IdTransactionFile = dbTransactionFile.Id;
+                // Add
                 _ = await Db.RTransactions.AddAsync(dbTransactions[i], ct);
             }
 

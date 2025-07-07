@@ -64,3 +64,23 @@ input.upper {
 .mat-card {
   margin: 0px 25px;
 }
+
+.right {
+  text-align: right !important;
+
+  div.mat-sort-header-container {
+      justify-content: flex-end;
+  }
+}
+
+.left {
+  text-align: left !important;
+
+  div.mat-sort-header-container {
+      justify-content: flex-start;
+  }
+}
+
+.center {
+  text-align: center !important;
+}

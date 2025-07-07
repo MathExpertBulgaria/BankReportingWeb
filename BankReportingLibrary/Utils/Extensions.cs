@@ -1,7 +1,9 @@
-﻿using System.Text.Encodings.Web;
+﻿using System.Globalization;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using static Azure.Core.HttpHeader;
 
 namespace BankReportingLibrary.Utils;
 
@@ -76,5 +78,32 @@ public static class Extensions
         }
 
         return res;
+    }
+
+    /// <summary>
+    /// A method that creates a common culture
+    /// </summary>
+    /// <param name="lang">The base culture for the common it</param>
+    /// <returns>The create common/returns>
+    public static CultureInfo GetCommonCultureInfo()
+    {
+        DateTimeFormatInfo dtfi;
+        CultureInfo _pci;
+
+        var lang = Nomen.Consts.DefaultLang.En;
+
+        dtfi = CultureInfo.CreateSpecificCulture(lang).DateTimeFormat;
+        dtfi.ShortDatePattern = Nomen.Consts.DateFormatConst.ShortDatePattern;
+        dtfi.LongDatePattern = Nomen.Consts.DateFormatConst.LongDatePattern;
+        _pci = CultureInfo.CreateSpecificCulture(lang);
+        _pci.DateTimeFormat = dtfi;
+        _pci.DateTimeFormat.ShortDatePattern = Nomen.Consts.DateFormatConst.ShortDatePattern;
+        _pci.DateTimeFormat.LongDatePattern = Nomen.Consts.DateFormatConst.LongDatePattern;
+        _pci.NumberFormat.CurrencyDecimalSeparator = ".";
+        _pci.NumberFormat.CurrencyGroupSeparator = " ";
+        _pci.NumberFormat.NumberDecimalSeparator = ".";
+        _pci.NumberFormat.NumberGroupSeparator = " ";
+
+        return _pci;
     }
 }
