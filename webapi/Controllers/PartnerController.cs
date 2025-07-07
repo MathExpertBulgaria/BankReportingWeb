@@ -28,7 +28,7 @@ public class PartnerController : RootController<PartnerAdp>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("[action]")]
-    public async Task<IActionResult> Search(SearchPartnerModel model)
+    public async Task<IActionResult> Search([FromBody] SearchPartnerModel model)
     {
         try
         {
@@ -51,7 +51,7 @@ public class PartnerController : RootController<PartnerAdp>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("[action]")]
-    public async Task<IActionResult> GetById(ObjectRefModel model)
+    public async Task<IActionResult> GetById([FromBody] ObjectRefModel model)
     {
         try
         {
@@ -73,7 +73,7 @@ public class PartnerController : RootController<PartnerAdp>
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost("[action]")]
-    public async Task<IActionResult> GetCsv(SearchPartnerModel model)
+    public async Task<IActionResult> GetCsv([FromBody] SearchPartnerModel model)
     {
         try
         {

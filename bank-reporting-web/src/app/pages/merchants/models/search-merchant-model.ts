@@ -1,6 +1,6 @@
 export interface SearchMerchantModel {
     idPartner?: number;
-    name?: number;
+    name?: string;
     boardingDateFrom?: Date;
     boardingDateTo?: Date;
     country?: number;

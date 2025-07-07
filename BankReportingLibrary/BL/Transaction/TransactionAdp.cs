@@ -78,12 +78,13 @@ public class TransactionAdp : DbClassRoot
             {
                 Res = await Db.RTransactions.AsNoTracking()
                         .Where(x =>
-                            model.IdMerchant == x.IdMerchant &&
+                            (!model.IdMerchant.HasValue || model.IdMerchant == x.IdMerchant) &&
                             (!createDateFrom.HasValue || createDateFrom <= x.CreateDate) &&
                             (!createDateTo.HasValue || createDateTo >= x.CreateDate) &&
-                            (!model.IdDirection.HasValue || x.IdDirection == model.IdDirection) &&
+                            (string.IsNullOrEmpty(model.IdDirection) || x.IdDirection == model.IdDirection) &&
                             (!model.AmountFrom.HasValue || model.AmountFrom.Value <= x.Amount) &&
                             (!model.AmountTo.HasValue || model.AmountTo.Value >= x.Amount) &&
+                            (string.IsNullOrEmpty(model.IdCcy) || x.IdDirection == model.IdCcy) &&
                             (string.IsNullOrEmpty(model.DebtorIban) || x.DebtorIban.Contains(model.DebtorIban)) &&
                             (string.IsNullOrEmpty(model.BeneficiaryIban) || x.BeneficiaryIban.Contains(model.BeneficiaryIban)) &&
                             (!model.Status.HasValue || x.Status == model.Status) &&

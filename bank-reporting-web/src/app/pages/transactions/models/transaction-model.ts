@@ -1,10 +1,10 @@
 export interface TransactionModel {
     id?: number;
-    idMerchant?: number;
+    idMerchant: number;
     createDate: Date;
-    idDirection?: number;
+    idDirection?: string;
     amount?: number;
-    idCcy?: number;
+    idCcy?: string;
     debtorIban?: string;
     beneficiaryIban?: string;
     status?: string;

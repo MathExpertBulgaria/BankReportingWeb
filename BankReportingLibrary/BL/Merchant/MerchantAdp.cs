@@ -52,6 +52,7 @@ public class MerchantAdp : DbClassRoot
             {
                 Res = await Db.RMerchants.AsNoTracking()
                         .Where(x =>
+                            (!x.IdPartner.HasValue || x.IdPartner == model.IdPartner) &&
                             (string.IsNullOrEmpty(model.Name) || x.Name.Contains(model.Name)) &&
                             (!boardingdateFrom.HasValue || boardingdateFrom <= x.BoardingDate) &&
                             (!boardingdateTo.HasValue || boardingdateTo >= x.BoardingDate) &&

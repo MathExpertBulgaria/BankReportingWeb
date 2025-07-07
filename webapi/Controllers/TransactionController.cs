@@ -51,7 +51,7 @@ public class TransactionController : RootController<TransactionAdp>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("[action]")]
-    public async Task<IActionResult> Search(SearchTransactionModel model)
+    public async Task<IActionResult> Search([FromBody] SearchTransactionModel model)
     {
         try
         {
@@ -74,7 +74,7 @@ public class TransactionController : RootController<TransactionAdp>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("[action]")]
-    public async Task<IActionResult> GetById(ObjectRefModel model)
+    public async Task<IActionResult> GetById([FromBody] ObjectRefModel model)
     {
         try
         {
@@ -96,7 +96,7 @@ public class TransactionController : RootController<TransactionAdp>
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost("[action]")]
-    public async Task<IActionResult> GetCsv(SearchTransactionModel model)
+    public async Task<IActionResult> GetCsv([FromBody] SearchTransactionModel model)
     {
         try
         {

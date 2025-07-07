@@ -1,11 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AppService } from '../../services/app.service';
-import { SearchPartnerModel } from '../../models/partner/search-partner-model';
+import { SearchPartnerModel } from '../partners/models/search-partner-model';
 import { finalize, Subscription } from 'rxjs';
 import { b64toBlob } from '../../functions/b64toBlob';
-import { createDORfromError, createDORfromObj, OperationAlert } from '../../models/core/data-operation-result-model';
-import { DownloadFileModel } from '../../models/core/download-file.model';
-import { SearchMerchantModel } from '../../models/merchant/search-merchant-model';
+import { createDORfromError, createDORfromObj, OperationAlert } from '../../models/data-operation-result-model';
+import { DownloadFileModel } from '../../models/download-file.model';
+import { SearchMerchantModel } from '../merchants/models/search-merchant-model';
+import { SearchTransactionModel } from '../transactions/models/search-transaction-model';
+import { downloadFile } from '../../functions/download-file';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +20,10 @@ export class HomeComponent implements OnDestroy {
   public oprRes: OperationAlert[] | null = null;
   public showSpinner = false;
 
-    // Subscription
+  // Subscription
   subPartnerCsv: Subscription | null = null;
+  subMerchantCsv: Subscription | null = null;
+  subTransactionCsv: Subscription | null = null;
 
   constructor(private appSrv: AppService) {
 
@@ -28,6 +32,8 @@ export class HomeComponent implements OnDestroy {
   ngOnDestroy(): void {
     // Free
     this.subPartnerCsv?.unsubscribe();
+    this.subMerchantCsv?.unsubscribe();
+    this.subTransactionCsv?.unsubscribe();
   }
 
   public onGetPartnerCsv() {
@@ -43,14 +49,7 @@ export class HomeComponent implements OnDestroy {
       next: (res: any) => {
         // Set data
         if (res.data) {
-          const blob = b64toBlob(res.data.contents, res.data.contentType);
-          const a = document.createElement('a');
-          const url = window.URL.createObjectURL(blob);
-      
-          document.body.appendChild(a);
-          a.href = url;
-          a.download = res.data.filename;
-          a.click();
+          downloadFile(res.data);
         } else {
           this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
         }
@@ -65,7 +64,7 @@ export class HomeComponent implements OnDestroy {
     this.showSpinner = true;
 
     // Call server
-    this.subPartnerCsv = this.appSrv.getMerchantCsv(<SearchMerchantModel>{}).pipe(
+    this.subMerchantCsv = this.appSrv.getMerchantCsv(<SearchMerchantModel>{}).pipe(
       finalize(() => {
         this.showSpinner = false;
       })
@@ -74,14 +73,31 @@ export class HomeComponent implements OnDestroy {
       next: (res: any) => {
         // Set data
         if (res.data) {
-          const blob = b64toBlob(res.data.contents, res.data.contentType);
-          const a = document.createElement('a');
-          const url = window.URL.createObjectURL(blob);
-      
-          document.body.appendChild(a);
-          a.href = url;
-          a.download = res.data.filename;
-          a.click();
+          downloadFile(res.data);
+        } else {
+          this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
+        }
+      },
+      error: (err: any) => {
+        this.oprRes = createDORfromError<DownloadFileModel>(err).getAlerts();
+      }
+    });
+  }
+
+  public onGetTransactionCsv() {
+    this.showSpinner = true;
+
+    // Call server
+    this.subTransactionCsv = this.appSrv.getTransactionCsv(<SearchTransactionModel>{}).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+      })
+    )
+    .subscribe({
+      next: (res: any) => {
+        // Set data
+        if (res.data) {
+          downloadFile(res.data);
         } else {
           this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
         }

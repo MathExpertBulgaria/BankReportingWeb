@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { createDORfromError, createDORfromObj, OperationAlert } from '../../models/core/data-operation-result-model';
-import { SearchTransactionModel } from '../../models/transaction/search-transaction-model';
+import { createDORfromError, createDORfromObj, OperationAlert } from '../../models/data-operation-result-model';
+import { SearchTransactionModel } from './models/search-transaction-model';
 import { finalize, Subscription } from 'rxjs';
 import { TransactionService } from '../../services/transaction.service';
-import { ResModel } from '../../models/core/res-model';
-import { TransactionModel } from '../../models/transaction/transaction-model';
+import { ResModel } from '../../models/res-model';
+import { TransactionModel } from './models/transaction-model';
+import { AppService } from '../../services/app.service';
+import { DownloadFileModel } from '../../models/download-file.model';
+import { downloadFile } from '../../functions/download-file';
 
 @Component({
   selector: 'app-transactions',
@@ -17,12 +20,17 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   public oprRes: OperationAlert[] | null = null;
   public showSpinner = false;
   public isExpanded = true;
+  public showTable = false;
 
   // Subscriptions
   subGet: Subscription | null = null;
   subSearch: Subscription | null = null;
+  subShowRes: Subscription | null = null;
+  subCsv: Subscription | null = null;
 
-  constructor(private srv: TransactionService) {
+  constructor(private srv: TransactionService,
+    private appSrv: AppService
+  ) {
 
   }
 
@@ -49,12 +57,17 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this.oprRes = createDORfromError<SearchTransactionModel>(err).getAlerts();
       }
     });
+
+    this.subShowRes = this.srv.showRes.subscribe(x => {
+      this.showTable = x;
+    });
   }
 
   ngOnDestroy(): void {
     // Free
     this.subGet?.unsubscribe();
     this.subSearch?.unsubscribe();
+    this.subShowRes?.unsubscribe();
   }
 
   onSearch(event: any) {
@@ -74,6 +87,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         if (res.data) {
           // Set
           this.srv.srcRes.next(res.data);
+          this.srv.showRes.next(true);
         } else {
           this.oprRes = createDORfromObj<ResModel<TransactionModel>>(res).getAlerts();
         }
@@ -86,6 +100,28 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   onCsv(event: any) {
     const model = event as SearchTransactionModel;
+
+    this.showSpinner = true;
+    
+    // Call server
+    this.subCsv = this.appSrv.getTransactionCsv(model).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+      })
+    )
+    .subscribe({
+      next: (res: any) => {
+        // Set data
+        if (res.data) {
+          downloadFile(res.data);
+        } else {
+          this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
+        }
+      },
+      error: (err: any) => {
+        this.oprRes = createDORfromError<DownloadFileModel>(err).getAlerts();
+      }
+    });
   }
 
   onImport(event: any) {

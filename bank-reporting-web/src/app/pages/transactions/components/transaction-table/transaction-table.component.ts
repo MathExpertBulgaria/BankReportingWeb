@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { TransactionModel } from '../../../../models/transaction/transaction-model';
+import { TransactionModel } from '../../models/transaction-model';
 
 @Component({
   selector: 'app-transaction-table',

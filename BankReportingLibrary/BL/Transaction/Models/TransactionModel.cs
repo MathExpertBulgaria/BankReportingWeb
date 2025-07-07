@@ -13,11 +13,11 @@ public class TransactionModel
 
     public DateTime CreateDate { get; set; }
 
-    public int? IdDirection { get; set; }
+    public string? IdDirection { get; set; }
 
     public decimal? Amount { get; set; }
 
-    public int? IdCcy { get; set; }
+    public string? IdCcy { get; set; }
 
     public string? DebtorIban { get; set; }
 

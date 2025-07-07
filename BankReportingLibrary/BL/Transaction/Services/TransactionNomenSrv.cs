@@ -34,20 +34,20 @@ public class TransactionNomenSrv : DbClassRoot
         {
             // Currency
             res.NCurrency = await Db.NCurrencies
-            .Select(x => new NomenModel<int>()
+            .Select(x => new NomenModel<string>()
             {
                 Value = x.Id,
-                Description = x.Ccy
+                Description = x.Id
             })
             .ToListAsync()
             .ConfigureAwait(false);
 
             // Transaction direction
             res.NTransactionDirection = await Db.NTransactionDirections
-                .Select(x => new NomenModel<int>()
+                .Select(x => new NomenModel<string>()
                 {
                     Value = x.Id,
-                    Description = x.Direction
+                    Description = x.Name
                 })
                 .ToListAsync()
                 .ConfigureAwait(false);

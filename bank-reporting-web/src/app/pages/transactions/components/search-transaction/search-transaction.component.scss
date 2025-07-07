@@ -4,12 +4,13 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: 25px 50px;
+
+    .flex-item {
+        flex: 1 1 auto;
+        padding: 5px 10px;
+    }
 }
 
-.form-flex-item {
-    flex: 1 1 auto;
-    padding: 5px;
-}
 
 .break {
     flex-basis: 100%;

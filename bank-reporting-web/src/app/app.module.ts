@@ -37,6 +37,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -92,7 +93,8 @@ const MY_NATIVE_DATE_FORMATS = {
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    MatAutocompleteModule
   ],
   providers: [
     MatIconRegistry,

@@ -30,35 +30,41 @@ public partial class DB : DbContext
     {
         modelBuilder.Entity<NCurrency>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__n_curren__3213E83F73613F38");
+            entity.HasKey(e => e.Id).HasName("PK__n_curren__3213E83F985E5661");
 
             entity.ToTable("n_currency");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Ccy)
-                .IsRequired()
+            entity.Property(e => e.Id)
                 .HasMaxLength(3)
                 .IsUnicode(false)
-                .HasColumnName("ccy");
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<NTransactionDirection>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__n_transa__3213E83F9B22FBC9");
+            entity.HasKey(e => e.Id).HasName("PK__n_transa__3213E83FDB3CFE8A");
 
             entity.ToTable("n_transaction_direction");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Direction)
-                .IsRequired()
+            entity.Property(e => e.Id)
                 .HasMaxLength(1)
                 .IsUnicode(false)
-                .HasColumnName("direction");
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<RMerchant>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__r_mercha__3213E83FD94E1891");
+            entity.HasKey(e => e.Id).HasName("PK__r_mercha__3213E83FF3113166");
 
             entity.ToTable("r_merchant");
 
@@ -103,7 +109,7 @@ public partial class DB : DbContext
 
         modelBuilder.Entity<RPartner>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__r_partne__3213E83FC4A5D4F5");
+            entity.HasKey(e => e.Id).HasName("PK__r_partne__3213E83FCE96344A");
 
             entity.ToTable("r_partner");
 
@@ -119,7 +125,7 @@ public partial class DB : DbContext
 
         modelBuilder.Entity<RTransaction>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__r_transa__3213E83FA0640C1E");
+            entity.HasKey(e => e.Id).HasName("PK__r_transa__3213E83FD2173939");
 
             entity.ToTable("r_transaction");
 
@@ -147,8 +153,16 @@ public partial class DB : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("external_id");
-            entity.Property(e => e.IdCcy).HasColumnName("id_ccy");
-            entity.Property(e => e.IdDirection).HasColumnName("id_direction");
+            entity.Property(e => e.IdCcy)
+                .IsRequired()
+                .HasMaxLength(3)
+                .IsUnicode(false)
+                .HasColumnName("id_ccy");
+            entity.Property(e => e.IdDirection)
+                .IsRequired()
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasColumnName("id_direction");
             entity.Property(e => e.IdMerchant)
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("id_merchant");
@@ -156,6 +170,16 @@ public partial class DB : DbContext
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("id_transaction_file");
             entity.Property(e => e.Status).HasColumnName("status");
+
+            entity.HasOne(d => d.IdCcyNavigation).WithMany(p => p.RTransactions)
+                .HasForeignKey(d => d.IdCcy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__r_transac__id_cc__440B1D61");
+
+            entity.HasOne(d => d.IdDirectionNavigation).WithMany(p => p.RTransactions)
+                .HasForeignKey(d => d.IdDirection)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__r_transac__id_di__4316F928");
 
             entity.HasOne(d => d.IdMerchantNavigation).WithMany(p => p.RTransactions)
                 .HasForeignKey(d => d.IdMerchant)
@@ -165,7 +189,7 @@ public partial class DB : DbContext
 
         modelBuilder.Entity<RTransactionFile>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__r_transa__3213E83F38E4B627");
+            entity.HasKey(e => e.Id).HasName("PK__r_transa__3213E83F76509533");
 
             entity.ToTable("r_transaction_file");
 

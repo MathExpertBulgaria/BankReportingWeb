@@ -15,14 +15,6 @@
 <router-outlet></router-outlet>
 
 <mat-menu #matUser="matMenu">
-    <a [routerLink]="['partners']" mat-menu-item>
-        <mat-icon fontSet="fa" fontIcon="fa-industry" style="font-size:22px;"></mat-icon>
-        <span style="padding: 0px 10px;">{{ 'Partners' | uppercase }}</span>
-    </a>
-    <a [routerLink]="['merchants']" mat-menu-item>
-        <mat-icon fontSet="fa" fontIcon="fa-users" style="font-size:22px;"></mat-icon>
-        <span style="padding: 0px 10px;">{{ 'Merchants' | uppercase }}</span>
-    </a>
     <a [routerLink]="['transactions']" mat-menu-item>
         <mat-icon fontSet="fa" fontIcon="fa-money" style="font-size:22px;"></mat-icon>
         <span style="padding: 0px 10px;">{{ 'Transactions' | uppercase }}</span>

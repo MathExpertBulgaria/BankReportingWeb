@@ -43,9 +43,6 @@ public class ImportTransactionSrv : DbClassRoot
 
         // Validate
 
-        var nomen = await _nomenSrv.Value.GetNomens()
-            .ConfigureAwait(false);
-
         // Transaction file
         var dbTransactionFile = new RTransactionFile()
         {
@@ -64,12 +61,12 @@ public class ImportTransactionSrv : DbClassRoot
                 Amount = x.Amount.Value,
                 BeneficiaryIban = x.Beneficiary.Iban,
                 CreateDate = x.CreateDate!.Value,
-                IdCcy = nomen.NCurrency.First(t => t.Description == x.Amount.Currency).Value,
+                IdCcy = x.Amount.Currency,
                 DebtorIban = x.Debtor.Iban,
-                IdDirection = nomen.NTransactionDirection.First(t => t.Description == x.Amount.Direction).Value,
+                IdDirection = x.Amount.Direction,
                 ExternalId = x.ExternalId,
                 Status = x.Status,
-                IdMerchant = model.Search.IdMerchant,
+                IdMerchant = model.Search.IdMerchant!.Value,
                 IdTransactionFile = dbTransactionFile.Id
             }));
 

@@ -7,7 +7,9 @@ namespace BankReportingDb.Models;
 
 public partial class NTransactionDirection
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
 
-    public string Direction { get; set; }
+    public string Name { get; set; }
+
+    public virtual ICollection<RTransaction> RTransactions { get; set; } = new List<RTransaction>();
 }

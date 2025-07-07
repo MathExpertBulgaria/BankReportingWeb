@@ -12,6 +12,6 @@ namespace BankReportingLibrary.BL.Transaction.Models;
 /// </summary>
 public class TransactionNomenModel
 {
-    public List<NomenModel<int>>? NCurrency { get; set; }
-    public List<NomenModel<int>>? NTransactionDirection { get; set; }
+    public List<NomenModel<string>>? NCurrency { get; set; }
+    public List<NomenModel<string>>? NTransactionDirection { get; set; }
 }

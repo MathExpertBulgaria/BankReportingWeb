@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { OperationAlert } from '../../models/core/data-operation-result-model';
+import { OperationAlert } from '../../models/data-operation-result-model';
 
 @Component({
   selector: 'app-operation-result',

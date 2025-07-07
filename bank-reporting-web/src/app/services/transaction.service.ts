@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SearchTransactionModel } from '../models/transaction/search-transaction-model';
-import { ResModel } from '../models/core/res-model';
-import { TransactionModel } from '../models/transaction/transaction-model';
+import { SearchTransactionModel } from '../pages/transactions/models/search-transaction-model';
+import { ResModel } from '../models/res-model';
+import { TransactionModel } from '../pages/transactions/models/transaction-model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DataOperationResult } from '../models/core/data-operation-result-model';
-import { DownloadFileModel } from '../models/core/download-file.model';
+import { DataOperationResult } from '../models/data-operation-result-model';
+import { DownloadFileModel } from '../models/download-file.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,8 @@ export class TransactionService {
   public srcModel: BehaviorSubject<SearchTransactionModel | null> = new BehaviorSubject<SearchTransactionModel | null>(null);
   // Search result
   public srcRes: BehaviorSubject<ResModel<TransactionModel> | null> = new BehaviorSubject<ResModel<TransactionModel> | null>(null);
+  // Show result
+  public showRes: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {
 
@@ -38,7 +40,7 @@ export class TransactionService {
   }
 
   // Get csv
-  public gettCsv(model: SearchTransactionModel): Observable<DataOperationResult<DownloadFileModel>> {
+  public getCsv(model: SearchTransactionModel): Observable<DataOperationResult<DownloadFileModel>> {
     // Call server
     return this.http.post<DataOperationResult<DownloadFileModel>>(TransactionService.getCsvUrl, model);
   }

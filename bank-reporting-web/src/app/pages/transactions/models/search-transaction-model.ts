@@ -4,10 +4,10 @@ export interface SearchTransactionModel {
     idMerchant?: number;
     createDateFrom?: Date;
     createDateTo?: Date;
-    idDirection?: number;
+    idDirection?: string;
     amountFrom?: number;
     amountTo?: number;
-    idCcy?: number;
+    idCcy?: string;
     debtorIban?: string;
     beneficiaryIban?: string;
     status?: boolean;
