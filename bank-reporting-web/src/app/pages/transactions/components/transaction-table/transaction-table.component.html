@@ -15,7 +15,10 @@
             <span class="flex-item">Date&nbsp;&nbsp;<strong>{{ row.createDate | date: 'MMM dd yyyy HH:mm' | uppercase }}</strong></span>
             <span class="flex-item">Amount&nbsp;&nbsp;<strong>{{ row.amount.toFixed(2) }} {{ row.idCcy}} {{ row.idDirection}}</strong></span>
             <span class="flex-item">External Id&nbsp;&nbsp;<strong>{{ row.externalId }}</strong></span>
-            <span class="flex-item">Status&nbsp;&nbsp;<strong>{{ row.status ? 'Successful' : 'Not successful' }}</strong></span>
+            <span class="flex-item">Status&nbsp;&nbsp;
+               <mat-icon fontSet="fa" fontIcon="fa-check" inline matTooltip="{{ 'Successful' | uppercase }}" *ngIf="row.status"></mat-icon>
+               <mat-icon fontSet="fa" fontIcon="fa-ban" inline matTooltip="{{ 'Not successful' | uppercase }}" *ngIf="!row.status"></mat-icon>
+            </span>
           </td>
         </ng-container>
   

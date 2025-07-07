@@ -13,5 +13,6 @@ div.mat-table-container {
     .flex-item {
         flex: 1 1 auto;
         padding: 5px 10px;
+        flex-wrap: nowrap;
     }
 }

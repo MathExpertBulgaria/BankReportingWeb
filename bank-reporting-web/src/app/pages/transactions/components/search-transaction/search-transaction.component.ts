@@ -102,7 +102,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
       idCcy: [null],
       debtorIban: [null],
       beneficiaryIban: [null],
-      idStatus: [null],
+      status: [null],
       externalId: [null],
     });
   }

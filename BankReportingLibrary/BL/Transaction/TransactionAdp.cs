@@ -84,7 +84,7 @@ public class TransactionAdp : DbClassRoot
                             (string.IsNullOrEmpty(model.IdDirection) || x.IdDirection == model.IdDirection) &&
                             (!model.AmountFrom.HasValue || model.AmountFrom.Value <= x.Amount) &&
                             (!model.AmountTo.HasValue || model.AmountTo.Value >= x.Amount) &&
-                            (string.IsNullOrEmpty(model.IdCcy) || x.IdDirection == model.IdCcy) &&
+                            (string.IsNullOrEmpty(model.IdCcy) || x.IdCcy == model.IdCcy) &&
                             (string.IsNullOrEmpty(model.DebtorIban) || x.DebtorIban.Contains(model.DebtorIban)) &&
                             (string.IsNullOrEmpty(model.BeneficiaryIban) || x.BeneficiaryIban.Contains(model.BeneficiaryIban)) &&
                             (!model.Status.HasValue || x.Status == model.Status) &&
