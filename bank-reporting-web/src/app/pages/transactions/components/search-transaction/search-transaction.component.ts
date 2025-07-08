@@ -44,6 +44,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   @Output() public search = new EventEmitter<SearchTransactionModel>();
   @Output() public csv = new EventEmitter<SearchTransactionModel>();
   @Output() public import = new EventEmitter<FormData>();
+  @Output() public reset = new EventEmitter<void>();
 
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
@@ -301,7 +302,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
       // return
       return;
     }
-    
+
     this.search.emit(this.form.value);
   }
 
@@ -349,6 +350,8 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
     this.srv?.srcRes.next(null);
     this.srv?.showRes.next(false);
+
+    this.reset.next();
   }
 }
 

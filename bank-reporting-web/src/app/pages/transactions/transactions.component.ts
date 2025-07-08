@@ -154,4 +154,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  onReset() {
+    this.oprRes = null;
+  }
 }

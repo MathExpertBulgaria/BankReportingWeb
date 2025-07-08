@@ -20,10 +20,7 @@ export enum OperationStatus {
 
 export interface OperationAlert {
     accent: string;
-    fontIcon: string;
-    fontSet: string;
     message: string;
-    key?: string;
 }
 
 export interface OperationMessage {
@@ -62,24 +59,9 @@ export class DataOperationResult<T> {
                     break;
             }
 
-            let fontIcon = 'fa-bell';
-            switch (c.messageType) {
-                case OperationMessageType.Error:
-                    fontIcon = 'fa-ban';
-                    break;
-                case OperationMessageType.Info:
-                    fontIcon = 'fa-info-circle';
-                    break;
-                default:
-                    fontIcon = 'fa-bell';
-            }
-
             return {
                 accent,
-                fontIcon,
-                fontSet: 'far',
                 message: c.message,
-                key: c.key
             };
         });
     }

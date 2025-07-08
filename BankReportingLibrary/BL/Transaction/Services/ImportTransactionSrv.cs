@@ -2,6 +2,7 @@
 using BankReportingDb.Models;
 using BankReportingLibrary.BL.Models;
 using BankReportingLibrary.BL.Transaction.Models;
+using BankReportingLibrary.BL.Transaction.Validators;
 using BankReportingLibrary.Models.CoreModels;
 using BankReportingLibrary.Nomen.Consts;
 using BankReportingLibrary.Utils;
@@ -14,15 +15,15 @@ namespace BankReportingLibrary.BL.Transaction.Services;
 /// </summary>
 public class ImportTransactionSrv : DbClassRoot
 {
-    // Services
-    private readonly Lazy<TransactionNomenSrv> _nomenSrv;
+    // Validators
+    private readonly Lazy<TransactionsFileModelValidator> _transactionFileModelValidator;
 
-    public ImportTransactionSrv(DB Ent, 
-        // Services
-        Lazy<TransactionNomenSrv> nomenSrv) : base(Ent)
+    public ImportTransactionSrv(DB Ent,
+        // Validators
+        Lazy<TransactionsFileModelValidator> transactionFileModelValidator) : base(Ent)
     {
         // Services
-        _nomenSrv = nomenSrv;
+        _transactionFileModelValidator = transactionFileModelValidator;
     }
 
     /// <summary>
@@ -37,11 +38,35 @@ public class ImportTransactionSrv : DbClassRoot
         // Locals
         var res = new DataOperationResult<ResModel<TransactionModel>>();
         res.OperationStatus = OperationStatus.Success;
+        TransactionsFileModel? data = null;
 
         string xml = System.Text.Encoding.UTF8.GetString(model.File.Contents);
-        var data = xml.FromXML<TransactionsFileModel>();
+
+        try
+        {
+            data = xml.FromXML<TransactionsFileModel>();
+        }
+        catch { }
+
+        // check data null, pass invalid xml, like another format or invalid structurre
+
+        #region Validation
 
         // Validate
+        if (!await _transactionFileModelValidator.Value.ValidateAsync(data, model.Search))
+        {
+            res.OperationStatus = OperationStatus.InvalidModel;
+
+            foreach (string error in _transactionFileModelValidator.Value.GetErrorMessages())
+            {
+                res.Messages.AddError(error);
+            }
+
+            // Return
+            return res;
+        }
+
+        #endregion
 
         // Transaction file
         var dbTransactionFile = new RTransactionFile()

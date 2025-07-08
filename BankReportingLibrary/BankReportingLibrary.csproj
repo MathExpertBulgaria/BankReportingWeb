@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="BL\Res\ImportTransaction.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ImportTransaction.resx</DependentUpon>
+    </Compile>
     <Compile Update="BL\Res\Merchant.Designer.cs">
       <DependentUpon>Merchant.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -34,6 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="BL\Res\ImportTransaction.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImportTransaction.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="BL\Res\Merchant.resx">
       <LastGenOutput>Merchant.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>

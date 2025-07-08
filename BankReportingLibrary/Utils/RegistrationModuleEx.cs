@@ -30,6 +30,11 @@ public static class RegistrationModuleEx
             {
                 builder.TryAddTransient(c);
             }
+            // Validators
+            else if (c.Namespace != null && c.Namespace.Contains("Validators"))
+            {
+                builder.TryAddTransient(c);
+            }
         }
 
         // Register utilities

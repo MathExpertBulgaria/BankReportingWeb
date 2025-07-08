@@ -22,7 +22,6 @@ import { InfoComponent } from './pages/info/info.component';
 import { provideHttpClient } from '@angular/common/http';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { OperationResultComponent } from './components/operation-result/operation-result.component';
-import { AlertComponent } from './components/alert/alert.component';
 import { ProgressUndeterminateComponent } from './components/progress-undeterminate/progress-undeterminate.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { SearchTransactionComponent } from './pages/transactions/components/search-transaction/search-transaction.component';
@@ -62,7 +61,6 @@ const MY_NATIVE_DATE_FORMATS = {
     InfoComponent,
     PageNotFoundComponent,
     OperationResultComponent,
-    AlertComponent,
     ProgressUndeterminateComponent,
     TransactionsComponent,
     SearchTransactionComponent,
