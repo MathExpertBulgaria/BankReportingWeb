@@ -4,6 +4,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using webapi.Code;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,18 +26,16 @@ builder.Services.AddControllers()
         jo.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
-
 var connStrCfg = builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
 builder.Services.AddBankReportingLibrary(new LibraryConfig
 {
-    ConnectionStringsData = connStrCfg
+    ConnectionStringsData = connStrCfg,
+    LibApp = builder.Configuration.GetSection("CfgLib").Get<CfgLib>(),
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

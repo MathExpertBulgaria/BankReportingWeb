@@ -34,8 +34,9 @@ public class PartnerAdp : DbClassRoot
     /// Search
     /// </summary>
     /// <param name="model"></param>
+    /// <param name="isPaging">Apply paging</param>
     /// <returns></returns>
-    public async Task<DataOperationResult<ResModel<PartnerModel>>> SearchAsync(SearchPartnerModel model)
+    public async Task<DataOperationResult<ResModel<PartnerModel>>> SearchAsync(SearchPartnerModel model, bool isPaging = true)
     {
         // Locals
         var res = new DataOperationResult<ResModel<PartnerModel>>();
@@ -48,13 +49,21 @@ public class PartnerAdp : DbClassRoot
             var search = Db.RPartners.AsNoTracking()
                         .Where(x => string.IsNullOrEmpty(model.Name) || x.Name.Contains(model.Name));
 
+            // Total
+            var total = await search.CountAsync();
+
+            // Paging
+            if (isPaging)
+            {
+                search = search
+                    .Skip(model.PageIndex * model.PageSize)
+                    .Take(model.PageSize);
+            }
+
             // Data
             res.Data = new ResModel<PartnerModel>()
             {
                 Res = await search
-                        // Paging
-                        .Skip(model.PageIndex * model.PageSize)
-                        .Take(model.PageSize)
                         .Select(x => new PartnerModel()
                         {
                             Id = x.Id,
@@ -131,7 +140,7 @@ public class PartnerAdp : DbClassRoot
         };
 
         // Data
-        var data = await SearchAsync(model)
+        var data = await SearchAsync(model, false)
             .ConfigureAwait(false);
 
         // Report

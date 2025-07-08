@@ -34,8 +34,9 @@ public class MerchantAdp : DbClassRoot
     /// Search
     /// </summary>
     /// <param name="model"></param>
+    /// <param name="isPaging">Apply paging</param>
     /// <returns></returns>
-    public async Task<DataOperationResult<ResModel<MerchantModel>>> SearchAsync(SearchMerchantModel model)
+    public async Task<DataOperationResult<ResModel<MerchantModel>>> SearchAsync(SearchMerchantModel model, bool isPaging = true)
     {
         // Locals
         var res = new DataOperationResult<ResModel<MerchantModel>>();
@@ -57,13 +58,21 @@ public class MerchantAdp : DbClassRoot
                             (string.IsNullOrEmpty(model.Country) || x.Country.Contains(model.Country))
                             );
 
+            // Total
+            var total = await search.CountAsync();
+
+            // Paging
+            if (isPaging)
+            {
+                search = search
+                    .Skip(model.PageIndex * model.PageSize)
+                    .Take(model.PageSize);
+            }
+
             // Data
             res.Data = new ResModel<MerchantModel>()
             {
                 Res = await search
-                        // Paging
-                        .Skip(model.PageIndex * model.PageSize)
-                        .Take(model.PageSize)
                         .Select(x => new MerchantModel()
                         {
                             Id = x.Id,
@@ -154,7 +163,7 @@ public class MerchantAdp : DbClassRoot
         };
 
         // Data
-        var data = await SearchAsync(model)
+        var data = await SearchAsync(model, false)
             .ConfigureAwait(false);
 
         // Report

@@ -1,4 +1,5 @@
 ﻿using BankReportingDb.Context;
+using BankReportingDb.Models;
 using BankReportingLibrary.BL.Models;
 using BankReportingLibrary.BL.Reporting;
 using BankReportingLibrary.BL.Transaction.Models;
@@ -60,8 +61,9 @@ public class TransactionAdp : DbClassRoot
     /// Search
     /// </summary>
     /// <param name="model"></param>
+    /// <param name="isPaging">Apply paging</param>
     /// <returns></returns>
-    public async Task<DataOperationResult<ResModel<TransactionModel>>> SearchAsync(SearchTransactionModel model)
+    public async Task<DataOperationResult<ResModel<TransactionModel>>> SearchAsync(SearchTransactionModel model, bool isPaging = true)
     {
         // Locals
         var res = new DataOperationResult<ResModel<TransactionModel>>();
@@ -89,13 +91,21 @@ public class TransactionAdp : DbClassRoot
                             (string.IsNullOrEmpty(model.ExternalId) || x.ExternalId.Contains(model.ExternalId))
                             );
 
+            // Total
+            var total = await search.CountAsync();
+
+            // Paging
+            if (isPaging)
+            {
+                search = search
+                    .Skip(model.PageIndex * model.PageSize)
+                    .Take(model.PageSize);
+            }
+
             // Data
             res.Data = new ResModel<TransactionModel>()
             {
                 Res = await search
-                        // Paging
-                        .Skip(model.PageIndex * model.PageSize)
-                        .Take(model.PageSize)
                         .Select(x => new TransactionModel()
                         {
                             Id = x.Id,
@@ -113,7 +123,7 @@ public class TransactionAdp : DbClassRoot
                         .ConfigureAwait(false),
 
                 // Total
-                Total = await search.CountAsync()
+                Total = total
             };
 
             // Commit
@@ -190,7 +200,7 @@ public class TransactionAdp : DbClassRoot
         };
 
         // Data
-        var data = await SearchAsync(model)
+        var data = await SearchAsync(model, false)
             .ConfigureAwait(false);
 
         // Report

@@ -71,10 +71,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "src/proxy.conf.json",
-            "sslCert": "pdop.crt",
-            "sslKey": "pdop.key",
-            "ssl": true
+            "proxyConfig": "src/proxy.conf.json"
           }
         },
         "extract-i18n": {
