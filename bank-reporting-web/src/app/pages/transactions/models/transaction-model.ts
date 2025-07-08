@@ -1,6 +1,7 @@
 export interface TransactionModel {
     id?: number;
     idMerchant: number;
+    merchantName?: string;
     createDate: Date;
     idDirection?: string;
     amount?: number;

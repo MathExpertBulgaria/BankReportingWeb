@@ -26,6 +26,8 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   public isSmallScreen = false;
   public partners: PartnerModel[] | null = null;
   public merchants: MerchantModel[] | null = null;
+  public isPartnerRequired = false;
+  public isMerchantRequired = false;
   
   // Subscription
   subSrcModel: Subscription | null = null;
@@ -96,10 +98,10 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   private createForm() {
     // Create form
     this.form = this.fb.group({
-      idPartner: [null, Validators.required],
-      partnerName: [null, this.validateIdPartner()],
-      idMerchant: [null, Validators.required],
-      merchantName: [{ value: null, disabled: true, }, this.validateIdMerchant()],
+      idPartner: [null],
+      partnerName: [null, this.validatePartnerNotFound()],
+      idMerchant: [null],
+      merchantName: [{ value: null, disabled: true, }, this.validateMerchantNotFound()],
       createDateFrom: [null],
       createDateTo: [null],
       idDirection: [null],
@@ -144,7 +146,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  isValid() {
+  validate() {
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
     if (!this.form.valid) {
@@ -154,14 +156,14 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  validateIdPartner(): Validators {
+  validatePartnerNotFound(): Validators {
     return (control: AbstractControl): {[key: string]: any} | null => {
       if (!this.form) {
         return null;
       }
 
       const idPartner = this.form.controls['idPartner'].value;
-      const isValid = idPartner && this.partners && this.partners.filter(x => x.id == idPartner).length > 0;
+      const isValid = !idPartner || (this.partners && this.partners.filter(x => x.id == idPartner).length > 0);
 
       if (!isValid) {
         return {'notFound': true } 
@@ -171,14 +173,14 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     };
   }
 
-  validateIdMerchant(): Validators {
+  validateMerchantNotFound(): Validators {
     return (control: AbstractControl): {[key: string]: any} | null => {
       if (!this.form) {
         return null;
       }
 
       const idMerchant = this.form.controls['idMerchant'].value;
-      const isValid = idMerchant && this.merchants && this.merchants.filter(x => x.id == idMerchant).length > 0;
+      const isValid = !idMerchant || (this.merchants && this.merchants.filter(x => x.id == idMerchant).length > 0);
 
       if (!isValid) {
         return {'notFound': true } 
@@ -186,6 +188,17 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
       return null;
     };
+  }
+
+  setImportReqirements() {
+    this.isPartnerRequired = true;
+    this.isMerchantRequired = true;
+
+    this.form.controls['idPartner'].addValidators(Validators.required);
+    this.form.controls['idMerchant'].addValidators(Validators.required);
+
+    this.form.controls['idPartner'].updateValueAndValidity();
+    this.form.controls['idMerchant'].updateValueAndValidity();
   }
 
   //#endregion
@@ -283,6 +296,12 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   //#endregion
 
   public onSearch(): void {
+    // Validate
+    if (!this.validate()) {
+      // return
+      return;
+    }
+    
     this.search.emit(this.form.value);
   }
 
@@ -291,8 +310,11 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   }
 
   public onBrowseFiles() {
+    // Requirements
+    this.setImportReqirements();
+
     // Validate
-    if (!this.isValid()) {
+    if (!this.validate()) {
       // return
       return;
     }
@@ -321,6 +343,9 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
     this.partners = null;
     this.merchants = null;
+
+    this.isPartnerRequired = false;
+    this.isMerchantRequired = false;
 
     this.srv?.srcRes.next(null);
     this.srv?.showRes.next(false);

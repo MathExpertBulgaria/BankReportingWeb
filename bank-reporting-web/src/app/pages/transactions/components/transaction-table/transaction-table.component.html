@@ -4,6 +4,15 @@
     <div class="mat-table-container">
       <table mat-table [dataSource]="dataSource" class="resTable" matSort>
 
+        <!-- Merchant column -->
+        <ng-container matColumnDef="merchant">
+          <th *matHeaderCellDef mat-sort-header class="center">
+            {{ 'Merchant' | uppercase }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.merchantName }}
+          </td>
+        </ng-container>
         <!-- Debtor iban column -->
         <ng-container matColumnDef="debtorIban">
           <th *matHeaderCellDef mat-sort-header class="center">

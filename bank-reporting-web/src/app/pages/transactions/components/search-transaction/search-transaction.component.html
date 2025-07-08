@@ -1,4 +1,4 @@
-<form [formGroup]=form *ngIf="srcModel" class=form-flex>
+<form [formGroup]=form *ngIf="srcModel" class="form-flex">
     <mat-card class="mat-card">
         <mat-card-header>
             <mat-card-title>{{ 'Search transactions' | uppercase }}</mat-card-title>
@@ -8,7 +8,7 @@
             <mat-form-field class="flex-item">
                 <mat-label>{{ 'Partner' | uppercase }}</mat-label>     
                 <input type="text" [matAutocomplete]="auto1" matInput maxlength="100" 
-                    formControlName="partnerName" required
+                    formControlName="partnerName" [required]="isPartnerRequired"
                     #filterPartner (keyup)="onPartnerSearch(filterPartner.value)" />
                 <mat-icon matSuffix inline fontIcon="fa-search" fontSet="far"></mat-icon>       
                 <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onPartnerSelected($event.option.value)">
@@ -24,7 +24,7 @@
             <mat-form-field class="flex-item">
                 <mat-label>{{ 'Merchant' | uppercase }}</mat-label>     
                 <input type="text" [matAutocomplete]="auto2" matInput maxlength="100" 
-                    formControlName="merchantName" required
+                    formControlName="merchantName" [required]="isMerchantRequired"
                     #filterMerchant (keyup)="onMerchantSearch(filterMerchant.value)" />
                 <mat-icon matSuffix inline fontIcon="fa-search" fontSet="far"></mat-icon>       
                 <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onMerchantSelected($event.option.value)">

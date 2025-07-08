@@ -16,7 +16,7 @@ import { SearchTransactionModel } from '../../models/search-transaction-model';
 export class TransactionTableComponent implements OnInit, OnDestroy {
 
   // Table structure
-  displayedColumns: string[] = ['debtorIban', 'beneficiaryIban', 'createDate', 'amount', 'externald', 'status'];
+  displayedColumns: string[] = ['merchant', 'debtorIban', 'beneficiaryIban', 'createDate', 'amount', 'externald', 'status'];
 
   // Locals
   dataSource: MatTableDataSource<TransactionModel>;
