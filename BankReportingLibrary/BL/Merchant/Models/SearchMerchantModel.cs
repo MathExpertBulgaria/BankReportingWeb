@@ -7,7 +7,7 @@ namespace BankReportingLibrary.BL.Merchant.Models;
 /// </summary>
 public class SearchMerchantModel : SearchModel
 {
-    public decimal IdPartner { get; set; }
+    public decimal? IdPartner { get; set; }
     public string? Name { get; set; }
     public DateTime? BoardingDateFrom { get; set; }
     public DateTime? BoardingDateTo { get; set; }

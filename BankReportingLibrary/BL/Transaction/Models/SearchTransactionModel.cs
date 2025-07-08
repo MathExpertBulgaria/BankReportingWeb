@@ -7,6 +7,7 @@ namespace BankReportingLibrary.BL.Transaction.Models;
 /// </summary>
 public class SearchTransactionModel : SearchModel
 {
+    public decimal? IdPartner{ get; set; }
     public decimal? IdMerchant { get; set; }
     public DateTime? CreateDateFrom { get; set; }
     public DateTime? CreateDateTo { get; set; }

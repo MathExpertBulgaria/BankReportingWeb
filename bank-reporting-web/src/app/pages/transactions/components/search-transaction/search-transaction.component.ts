@@ -356,6 +356,12 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   }
 
   public onCsv(): void {
+     // Validate
+    if (!this.validate()) {
+      // return
+      return;
+    }
+    
     this.csv.emit(this.form.value);
   }
 

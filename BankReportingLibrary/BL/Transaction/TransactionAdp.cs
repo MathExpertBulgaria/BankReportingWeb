@@ -78,6 +78,7 @@ public class TransactionAdp : DbClassRoot
             // Search
             var search = Db.RTransactions.AsNoTracking()
                         .Where(x =>
+                            (!model.IdPartner.HasValue || model.IdPartner == x.IdMerchantNavigation.IdPartner) &&
                             (!model.IdMerchant.HasValue || model.IdMerchant == x.IdMerchant) &&
                             (!createDateFrom.HasValue || createDateFrom <= x.CreateDate) &&
                             (!createDateTo.HasValue || createDateTo >= x.CreateDate) &&
