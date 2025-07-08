@@ -1,1 +1,79 @@
-<p>info works!</p>
+<div class="cont">
+    <!-- Main -->
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <div mat-card-avatar class="icondiv">
+                <mat-icon fontSet="fa" fontIcon="fa-info"></mat-icon>
+            </div>
+            <mat-card-title>
+                <strong>{{ 'Bank reporting' | uppercase }}</strong>
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{ 'Usage guide' | uppercase }}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>The Bank reporting system allows for exporting partners, merchants and transactions, as well as searching transaction, and importing 
+            transactions from an XML file.
+          </p>
+        </mat-card-content>
+    </mat-card>
+
+    <br/>
+
+    <mat-accordion multi="true">
+        <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+                {{ 'Export' | uppercase }}
+            </mat-expansion-panel-header>
+            <p>
+                You can export partners, merchants, or transaction on the <a routerLink='/'>Home page</a> by clicking the export buttons 
+                for each type.
+            </p>
+            <p>
+                You can also export transactions on the transaction page described below.
+            </p>   
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                {{ 'Transactions' | uppercase }}
+            </mat-expansion-panel-header>
+            <p>There are various options when it comes to the <a routerLink='/transactions'>transactions</a>.
+          </p>
+
+          <h4>Search transactions</h4>
+          <p>
+            You can search transactions either by specifying search criteria or not. 
+            Numerous transaction properties like beneficiary iban, amount details, create date, etc. are available for search.
+          </p>
+
+          <h4>Partner and merchant filters</h4>
+          <p>
+            Partners can be filtered out by entering at least three symbols in the partner field. Then if matched partners are found, 
+            select one from the list.
+          </p>
+
+          <p>
+            Merchant field is initially disabled. It needs a partner to be selected before it enables. 
+            Searching this field is as is the partner search.
+          </p>
+
+           <h4>Export transactions</h4>
+           <p>
+            You can export transactions by clicking the export button on the search transactions screen. 
+            The export will take into consideration the current search criteria and export accordingly.
+          </p>
+
+           <h4>Import transactions</h4>
+           <p>
+            There is a functionality to import transaction from a XML file. 
+            Since the file itself does not contain information about the partner and the merchant it is thus required to 
+            fill in the partner and merchant information on the search screen before you can click the import button.
+          </p>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <br/>
+
+ </div>

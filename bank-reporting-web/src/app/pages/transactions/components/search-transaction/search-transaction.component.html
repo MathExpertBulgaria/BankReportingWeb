@@ -135,12 +135,12 @@
         </mat-card-content>
         <mat-card-actions>
             <!-- Reset -->
-            <button mat-button color="accent" type="button" (click)="onReset()" *ngIf="!isSmallScreen">
-                <mat-icon fontSet="fa" fontIcon="fa-home"></mat-icon>&nbsp;&nbsp;&nbsp;{{ 'Reset' | uppercase }}
+            <button mat-stroked-button color="accent" type="button" (click)="onReset()" *ngIf="!isSmallScreen">
+                <mat-icon fontSet="fa" fontIcon="fa-recycle"></mat-icon>&nbsp;&nbsp;&nbsp;{{ 'Reset' | uppercase }}
             </button>
             <button mat-icon-button color="primary" type="button" (click)="onReset()" *ngIf="isSmallScreen"
-                matTooltip="{{ 'Export CSV' | uppercase }}">
-                <mat-icon fontSet="fa" fontIcon="fa-home"></mat-icon>
+                matTooltip="{{ 'Reset' | uppercase }}">
+                <mat-icon fontSet="fa" inline fontIcon="fa-recycle"></mat-icon>
             </button>
 
             <span style="flex: auto;"></span>
@@ -148,15 +148,19 @@
             <!-- Import -->
             <button mat-icon-button color="primary" type="button" (click)="onBrowseFiles()" 
                 matTooltip="{{ 'Import from XML' | uppercase }}">
-                <mat-icon fontSet="fa" fontIcon="fa-upload"></mat-icon>
+                <mat-icon fontSet="fa" inline fontIcon="fa-upload"></mat-icon>
                 <input  type="file" #fileInput style="display: none;" (change)="importFile()" accept=".*xml" />
             </button>
+
+            &nbsp;&nbsp;
 
             <!-- Csv-->
             <button mat-icon-button color="primary" type="button" (click)="onCsv()"
                 matTooltip="{{ 'Export CSV' | uppercase }}">
-                <mat-icon fontSet="fa" fontIcon="fa-download"></mat-icon>
+                <mat-icon fontSet="fa" inline fontIcon="fa-download"></mat-icon>
             </button>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
 
             <!-- Search -->
             <button mat-raised-button color="primary" type="submit" (click)="onSearch()">
