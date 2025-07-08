@@ -75,7 +75,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   onSearch(event: any) {
     const model = event as SearchTransactionModel;
-console.log(model)
+
     this.showSpinner = true;
     
     // Call server

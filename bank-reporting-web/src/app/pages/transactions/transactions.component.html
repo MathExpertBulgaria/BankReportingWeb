@@ -7,7 +7,10 @@
     (search)="onSearch($event)" (csv)="onCsv($event)" (import)="onImport($event)">
 </app-search-transaction>
 
-<div>&nbsp;</div>
+<br/>
+
+<!-- SPINNER - WAITING FOR RESULTS -->
+<app-progress-undeterminate [showSpinner]="showSpinner"></app-progress-undeterminate>
 
 <!--Results table-->
 <mat-card appearance="outlined" class="mat-card" *ngIf="showTable">
@@ -16,5 +19,3 @@
     </mat-card-content>
 </mat-card>
 
-<!-- SPINNER - WAITING FOR RESULTS -->
-<app-progress-undeterminate [showSpinner]="showSpinner"></app-progress-undeterminate>
