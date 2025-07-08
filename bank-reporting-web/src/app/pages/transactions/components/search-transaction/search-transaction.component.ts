@@ -164,7 +164,8 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
       }
 
       const idPartner = this.form.controls['idPartner'].value;
-      const isValid = !idPartner || (this.partners && this.partners.filter(x => x.id == idPartner).length > 0);
+      const partnerName = this.form.controls['partnerName'].value;
+      const isValid = !partnerName || (this.partners && this.partners.filter(x => x.id == idPartner).length > 0);
 
       if (!isValid) {
         return {'notFound': true } 
@@ -181,7 +182,8 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
       }
 
       const idMerchant = this.form.controls['idMerchant'].value;
-      const isValid = !idMerchant || (this.merchants && this.merchants.filter(x => x.id == idMerchant).length > 0);
+      const merchantName = this.form.controls['merchantName'].value;
+      const isValid = !merchantName || (this.merchants && this.merchants.filter(x => x.id == idMerchant).length > 0);
 
       if (!isValid) {
         return {'notFound': true } 
@@ -225,6 +227,12 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
           // Set
           this.partners = res.data.res;
 
+          // Auto select
+          const partnerName = this.form.controls['partnerName'].value;
+          if (partnerName) {
+            this.selectParterByName(partnerName);
+          }
+
           // Clear 
           this.clearMerchant();
         } else {
@@ -242,6 +250,25 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
     this.form.controls['idPartner'].setValue(val);
     this.form.controls['partnerName'].setValue(selection.name);
+
+    // Clear
+    this.clearMerchant();
+  }
+
+  public selectParterByName(val: string) {
+    const selection = this.partners?.filter(x => x.name == val);
+
+    const isMatch = selection!.length > 0;
+
+    if (isMatch) {
+      this.form.controls['idPartner'].setValue(selection![0].id);
+      this.form.controls['partnerName'].setValue(selection![0].name);
+    } else {
+      this.form.controls['idPartner'].setValue(null);
+    }
+
+    this.form.controls['idPartner'].updateValueAndValidity();
+    this.form.controls['partnerName'].updateValueAndValidity();
 
     // Clear
     this.clearMerchant();
@@ -277,6 +304,12 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
         if (res.data) {
           // Set
           this.merchants = res.data.res;
+
+          // Auto select
+          const merchantName = this.form.controls['merchantName'].value;
+          if (merchantName) {
+            this.selectMerchantByName(merchantName);
+          }
         } else {
           this.form.controls['idMerchant'].setValue(null);
         }
@@ -294,6 +327,22 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     this.form.controls['merchantName'].setValue(selection.name);
   }
   
+  public selectMerchantByName(val: string) {
+    const selection = this.merchants?.filter(x => x.name == val);
+
+    const isMatch = selection!.length > 0;
+
+    if (isMatch) {
+      this.form.controls['idMerchant'].setValue(selection![0].id);
+      this.form.controls['merchantName'].setValue(selection![0].name);
+    } else {
+      this.form.controls['idMerchant'].setValue(null);
+    }
+
+    this.form.controls['idMerchant'].updateValueAndValidity();
+    this.form.controls['merchantName'].updateValueAndValidity();
+  }
+
   //#endregion
 
   public onSearch(): void {
