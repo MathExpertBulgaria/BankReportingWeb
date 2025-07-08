@@ -22,6 +22,7 @@
     <br/>
 
     <mat-accordion multi="true">
+        <!-- Export -->
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 {{ 'Export' | uppercase }}
@@ -35,6 +36,7 @@
             </p>   
         </mat-expansion-panel>
 
+        <!-- Transaction -->
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 {{ 'Transactions' | uppercase }}
@@ -46,6 +48,9 @@
           <p>
             You can search transactions either by specifying search criteria or not. 
             Numerous transaction properties like beneficiary iban, amount details, create date, etc. are available for search.
+          </p>
+           <p>
+           After searching you are displayed the search result in a sortable table with pagination.
           </p>
 
           <h4>Partner and merchant filters</h4>
