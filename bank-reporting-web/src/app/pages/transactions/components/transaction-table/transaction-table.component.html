@@ -4,53 +4,36 @@
     <div class="mat-table-container">
       <table mat-table [dataSource]="dataSource" class="resTable" matSort>
 
-        <!-- Transaction column -->
-        <!-- <ng-container matColumnDef="id">
-          <th *matHeaderCellDef class="center">
-            {{ 'Transactions' | uppercase }}
-          </th>
-          <td mat-cell *matCellDef="let row" class="flex-row">
-            <span class="flex-item">Debtor&nbsp;&nbsp;<strong>{{ row.debtorIban }}</strong></span>
-            <span class="flex-item">Beneficiary&nbsp;&nbsp;<strong>{{ row.beneficiaryIban }}</strong></span>
-            <span class="flex-item">Date&nbsp;&nbsp;<strong>{{ row.createDate | date: 'MMM dd yyyy HH:mm' | uppercase }}</strong></span>
-            <span class="flex-item">Amount&nbsp;&nbsp;<strong>{{ row.amount.toFixed(2) }} {{ row.idCcy}} {{ row.idDirection}}</strong></span>
-            <span class="flex-item">External Id&nbsp;&nbsp;<strong>{{ row.externalId }}</strong></span>
-            <span class="flex-item">Status&nbsp;&nbsp;
-               <mat-icon fontSet="fa" fontIcon="fa-check" inline matTooltip="{{ 'Successful' | uppercase }}" *ngIf="row.status"></mat-icon>
-               <mat-icon fontSet="fa" fontIcon="fa-ban" inline matTooltip="{{ 'Not successful' | uppercase }}" *ngIf="!row.status"></mat-icon>
-            </span>
-          </td>
-        </ng-container> -->
-        <!-- debtorIban column -->
+        <!-- Debtor iban column -->
         <ng-container matColumnDef="debtorIban">
-          <th *matHeaderCellDef class="center">
+          <th *matHeaderCellDef mat-sort-header class="center">
             {{ 'Debtor iban' | uppercase }}
           </th>
           <td mat-cell *matCellDef="let row">
             {{ row.debtorIban }}
           </td>
         </ng-container>
-        <!-- beneficiaryIban column -->
+        <!-- Beneficiary iban column -->
         <ng-container matColumnDef="beneficiaryIban">
-          <th *matHeaderCellDef class="center">
+          <th *matHeaderCellDef mat-sort-header class="center">
             {{ 'Beneficiary iban' | uppercase }}
           </th>
           <td mat-cell *matCellDef="let row">
             {{ row.beneficiaryIban }}
           </td>
         </ng-container>
-         <!-- createDate column -->
+         <!-- Create date column -->
         <ng-container matColumnDef="createDate">
-          <th *matHeaderCellDef class="center">
+          <th *matHeaderCellDef mat-sort-header class="center">
             {{ 'Create date' | uppercase }}
           </th>
           <td mat-cell *matCellDef="let row" class="center">
             {{ row.createDate | date: 'MMM dd yyyy HH:mm' | uppercase }}
           </td>
         </ng-container>
-         <!-- amount column -->
+         <!-- Amount column -->
         <ng-container matColumnDef="amount">
-          <th *matHeaderCellDef class="center">
+          <th *matHeaderCellDef mat-sort-header class="center">
             {{ 'Amount' | uppercase }}
           </th>
           <td mat-cell *matCellDef="let row" class="right">
@@ -59,7 +42,7 @@
         </ng-container>
          <!-- External Id column -->
         <ng-container matColumnDef="externald">
-          <th *matHeaderCellDef class="center">
+          <th *matHeaderCellDef mat-sort-header class="center">
             {{ 'External Id' | uppercase }}
           </th>
           <td mat-cell *matCellDef="let row">
@@ -68,7 +51,7 @@
         </ng-container>
          <!-- Status column -->
         <ng-container matColumnDef="status">
-          <th *matHeaderCellDef class="center">
+          <th *matHeaderCellDef mat-sort-header class="center">
             {{ 'Status' | uppercase }}
           </th>
           <td mat-cell *matCellDef="let row" class="center">
@@ -88,7 +71,7 @@
   </div>
   <!--DIV FOR PAGING-->
   <div>
-    <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="usersPageSize" (page)="onPageSizeChange($event)">
+    <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" [length]="total" (page)="onPageChange($event)">
     </mat-paginator>
   </div>
   </div>

@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { TransactionService } from '../../../../services/transaction.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { TransactionModel } from '../../models/transaction-model';
+import { SearchTransactionModel } from '../../models/search-transaction-model';
 
 @Component({
   selector: 'app-transaction-table',
@@ -17,15 +18,20 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
   // Table structure
   displayedColumns: string[] = ['debtorIban', 'beneficiaryIban', 'createDate', 'amount', 'externald', 'status'];
 
+  // Locals
   dataSource: MatTableDataSource<TransactionModel>;
+  total = 0;
+  srcFormModel: SearchTransactionModel | null = null;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
 
   // Subscription
   subRes: Subscription | null = null;
+  subSrcForm: Subscription | null = null;
 
-  usersPageSize?: number;
+  // Outputs
+  @Output() public search = new EventEmitter<SearchTransactionModel>();
 
   constructor(private srv: TransactionService) {
     this.dataSource = new MatTableDataSource<TransactionModel>();
@@ -33,7 +39,7 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Define paging and sort
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     if (this.sort) {
      this.sort.active = 'id';
@@ -51,6 +57,7 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
         }
 
         this.dataSource.data = res.res!;
+        this.total = res.total;
 
         this.dataSource._updateChangeSubscription();
       } else {
@@ -58,11 +65,17 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
         this.dataSource._updateChangeSubscription();
       }
     });
+
+    // Search
+    this.subSrcForm = this.srv.srcFormModel.subscribe(x => {
+      this.srcFormModel = x;
+    });
   }
 
   ngOnDestroy() {
     // Free
     this.subRes?.unsubscribe();
+    this.subSrcForm?.unsubscribe();
   }
 
   // Show or hide table
@@ -70,7 +83,12 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
     return this.dataSource.data && this.dataSource.data.length > 0;
   }
 
-  onPageSizeChange(event: any) {
+  onPageChange(event: any) {
     const evt = event as PageEvent;
+    var model = this.srcFormModel ? this.srcFormModel : <SearchTransactionModel>{};
+    model.pageIndex = event.pageIndex;
+    model.pageSize = event.pageSize;
+
+    this.search.emit(model);
   }
 }

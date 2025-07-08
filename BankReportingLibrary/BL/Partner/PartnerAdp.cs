@@ -44,11 +44,14 @@ public class PartnerAdp : DbClassRoot
         // Transaction
         using var tran = await Db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadUncommitted);
         {
+            // Search
+            var search = Db.RPartners.AsNoTracking()
+                        .Where(x => string.IsNullOrEmpty(model.Name) || x.Name.Contains(model.Name));
+
             // Data
             res.Data = new ResModel<PartnerModel>()
             {
-                Res = await Db.RPartners.AsNoTracking()
-                        .Where(x => string.IsNullOrEmpty(model.Name) || x.Name.Contains(model.Name))
+                Res = await search
                         // Paging
                         .Skip(model.PageIndex * model.PageSize)
                         .Take(model.PageSize)
@@ -58,7 +61,9 @@ public class PartnerAdp : DbClassRoot
                             Name = x.Name
                         })
                         .ToListAsync()
-                        .ConfigureAwait(false)
+                        .ConfigureAwait(false),
+                // Total
+                Total = await search.CountAsync()
             };
 
             // Commit

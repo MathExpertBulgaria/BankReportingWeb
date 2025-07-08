@@ -47,17 +47,20 @@ public class MerchantAdp : DbClassRoot
         // Transaction
         using var tran = await Db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadUncommitted);
         {
-            // Data
-            res.Data = new ResModel<MerchantModel>()
-            {
-                Res = await Db.RMerchants.AsNoTracking()
+            // Search
+            var search = Db.RMerchants.AsNoTracking()
                         .Where(x =>
                             (!x.IdPartner.HasValue || x.IdPartner == model.IdPartner) &&
                             (string.IsNullOrEmpty(model.Name) || x.Name.Contains(model.Name)) &&
                             (!boardingdateFrom.HasValue || boardingdateFrom <= x.BoardingDate) &&
                             (!boardingdateTo.HasValue || boardingdateTo >= x.BoardingDate) &&
                             (string.IsNullOrEmpty(model.Country) || x.Country.Contains(model.Country))
-                            )
+                            );
+
+            // Data
+            res.Data = new ResModel<MerchantModel>()
+            {
+                Res = await search
                         // Paging
                         .Skip(model.PageIndex * model.PageSize)
                         .Take(model.PageSize)
@@ -73,7 +76,10 @@ public class MerchantAdp : DbClassRoot
                             PartnerName = x.IdPartnerNavigation.Name
                         })
                         .ToListAsync()
-                        .ConfigureAwait(false)
+                        .ConfigureAwait(false),
+
+                // Total
+                Total = await search.CountAsync()
             };
 
             // Commit

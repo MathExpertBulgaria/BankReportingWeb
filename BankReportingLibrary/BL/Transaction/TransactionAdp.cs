@@ -73,10 +73,8 @@ public class TransactionAdp : DbClassRoot
         // Transaction
         using var tran = await Db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadUncommitted);
         {
-            // Data
-            res.Data = new ResModel<TransactionModel>()
-            {
-                Res = await Db.RTransactions.AsNoTracking()
+            // Search
+            var search = Db.RTransactions.AsNoTracking()
                         .Where(x =>
                             (!model.IdMerchant.HasValue || model.IdMerchant == x.IdMerchant) &&
                             (!createDateFrom.HasValue || createDateFrom <= x.CreateDate) &&
@@ -89,7 +87,12 @@ public class TransactionAdp : DbClassRoot
                             (string.IsNullOrEmpty(model.BeneficiaryIban) || x.BeneficiaryIban.Contains(model.BeneficiaryIban)) &&
                             (!model.Status.HasValue || x.Status == model.Status) &&
                             (string.IsNullOrEmpty(model.ExternalId) || x.ExternalId.Contains(model.ExternalId))
-                            )
+                            );
+
+            // Data
+            res.Data = new ResModel<TransactionModel>()
+            {
+                Res = await search
                         // Paging
                         .Skip(model.PageIndex * model.PageSize)
                         .Take(model.PageSize)
@@ -107,7 +110,10 @@ public class TransactionAdp : DbClassRoot
                             MerchantName = x.IdMerchantNavigation.Name
                         })
                         .ToListAsync()
-                        .ConfigureAwait(false)
+                        .ConfigureAwait(false),
+
+                // Total
+                Total = await search.CountAsync()
             };
 
             // Commit

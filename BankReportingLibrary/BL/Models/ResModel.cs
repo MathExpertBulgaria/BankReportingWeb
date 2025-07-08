@@ -7,4 +7,5 @@
 public class ResModel<T>
 {
     public List<T>? Res { get; set; }
+    public int Total { get; set; }
 }

@@ -33,6 +33,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   subPartners: Subscription | null = null;
   subMerchants: Subscription | null = null;
   subPartner: Subscription | null = null;
+  subFormChanges: Subscription | null = null;
 
   // Search model
   public srcModel: SearchTransactionModel | null = null;
@@ -55,13 +56,17 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Get search
-    this.subSrcModel = this.srv.srcModel
-      .subscribe(x => {
-        this.srcModel =  x
-      });
+    this.subSrcModel = this.srv.srcModel.subscribe(x => {
+      this.srcModel = x;
+    });
 
     // Create form
     this.createForm();
+
+    // Get search
+    this.subFormChanges = this.form.valueChanges.subscribe(x => {
+      this.srv.srcFormModel.next(x);
+    });
 
     // Screen
     this.subIsSmallScreen = this.screenSrv.isSmallScreen.subscribe(x => {
@@ -85,6 +90,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     this.subPartners?.unsubscribe();
     this.subMerchants?.unsubscribe();
     this.subPartner?.unsubscribe();
+    this.subFormChanges?.unsubscribe();
   }
 
   private createForm() {
@@ -316,7 +322,6 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     this.partners = null;
     this.merchants = null;
 
-    //this.srv?.srcModel.next(null);
     this.srv?.srcRes.next(null);
     this.srv?.showRes.next(false);
   }

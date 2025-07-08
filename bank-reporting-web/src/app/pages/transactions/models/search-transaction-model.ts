@@ -1,6 +1,7 @@
+import { SearchModel } from "../../../models/search-model";
 import { TransactionNomenModel } from "./transaction-nomen.model";
 
-export interface SearchTransactionModel {
+export interface SearchTransactionModel extends SearchModel {
     idMerchant?: number;
     createDateFrom?: Date;
     createDateTo?: Date;

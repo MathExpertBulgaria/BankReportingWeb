@@ -94,7 +94,8 @@ const MY_NATIVE_DATE_FORMATS = {
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSortModule
   ],
   providers: [
     MatIconRegistry,
