@@ -17,8 +17,8 @@ html{
 
   @include mat.theme((
     color: (
-      primary: mat.$violet-palette,
-      tertiary: mat.$orange-palette,
+      primary: mat.$azure-palette,
+      tertiary: mat.$violet-palette,
       theme-type: light,
     ),
     typography: Roboto,

@@ -187,6 +187,15 @@ namespace BankReportingLibrary.BL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import succesful.
+        /// </summary>
+        internal static string lImportOk {
+            get {
+                return ResourceManager.GetString("lImportOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid model.
         /// </summary>
         internal static string lInvalidModel {

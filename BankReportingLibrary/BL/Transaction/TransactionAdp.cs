@@ -227,7 +227,7 @@ public class TransactionAdp : DbClassRoot
                 .ConfigureAwait(false);
 
             // Message
-            res.Messages.Add(messages);
+            res.Messages.AddInfo(Res.ImportTransaction.lImportOk);
         }
 
         // Return

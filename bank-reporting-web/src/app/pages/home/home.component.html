@@ -15,7 +15,7 @@
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-button (click)="onGetPartnerCsv()">{{ 'Export' | uppercase }}</button>
+            <button mat-button color="accent" (click)="onGetPartnerCsv()">{{ 'Export' | uppercase }}</button>
         </mat-card-actions>
     </mat-card>
 
@@ -33,7 +33,7 @@
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-button (click)="onGetMerchantCsv()">{{ 'Export' | uppercase }}</button>
+            <button mat-button color="accent" (click)="onGetMerchantCsv()">{{ 'Export' | uppercase }}</button>
         </mat-card-actions>
     </mat-card>
 
@@ -51,9 +51,9 @@
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-button (click)="onGetTransactionCsv()">{{ 'Export' | uppercase }}</button>
+            <button mat-button color="accent" (click)="onGetTransactionCsv()">{{ 'Export' | uppercase }}</button>
             <span style="flex: auto;"></span>
-            <button mat-stroked-button [routerLink]="['transactions']">{{ 'Search' | uppercase }}
+            <button mat-stroked-button color="primary" [routerLink]="['transactions']">{{ 'Search' | uppercase }}
                 <mat-icon fontSet="fa" fontIcon="fa-search"></mat-icon>
             </button>
         </mat-card-actions>

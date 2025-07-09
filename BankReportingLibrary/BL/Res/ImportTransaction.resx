@@ -159,6 +159,9 @@
   <data name="lIbanRequired" xml:space="preserve">
     <value>Iban is required</value>
   </data>
+  <data name="lImportOk" xml:space="preserve">
+    <value>Import succesful</value>
+  </data>
   <data name="lInvalidModel" xml:space="preserve">
     <value>Invalid model</value>
   </data>

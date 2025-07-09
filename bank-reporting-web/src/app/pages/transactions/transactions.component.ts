@@ -145,9 +145,9 @@ export class TransactionsComponent implements OnInit, OnDestroy {
           // Set
           this.srv.srcRes.next(res.data);
           this.srv.showRes.next(true);
-        } else {
-          this.oprRes = createDORfromObj<ResModel<TransactionModel>>(res).getAlerts();
-        }
+        } 
+
+        this.oprRes = createDORfromObj<ResModel<TransactionModel>>(res).getAlerts();
       },
       error: (err: any) => {
         this.oprRes = createDORfromError<ResModel<TransactionModel>>(err).getAlerts();
