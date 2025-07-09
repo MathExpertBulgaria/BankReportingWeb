@@ -18,7 +18,7 @@ public class ImportTransactionSrv : DbClassRoot
     // Validators
     private readonly Lazy<TransactionsFileModelValidator> _transactionFileModelValidator;
 
-    public ImportTransactionSrv(DB Ent,
+    public ImportTransactionSrv(BankReporingContext Ent,
         // Validators
         Lazy<TransactionsFileModelValidator> transactionFileModelValidator) : base(Ent)
     {

@@ -10,19 +10,19 @@ namespace BankReportingLibrary.Utils;
 /// </summary>
 public class DbClassRoot : ClassRoot
 {
-    private readonly DB _ent;
+    private readonly BankReporingContext _ent;
 
     /// <summary>
     /// DB context
     /// </summary>
-    protected DB Db => _ent;
+    protected BankReporingContext Db => _ent;
 
     #region Constructor and Destructor
 
     /// <summary>
     /// Constructor 
     /// </summary>
-    public DbClassRoot(DB Ent)
+    public DbClassRoot(BankReporingContext Ent)
     {
         // Set connection
         _ent = Ent;

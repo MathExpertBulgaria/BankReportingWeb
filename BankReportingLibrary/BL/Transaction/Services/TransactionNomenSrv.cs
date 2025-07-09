@@ -16,7 +16,7 @@ namespace BankReportingLibrary.BL.Transaction.Services;
 /// </summary>
 public class TransactionNomenSrv : DbClassRoot
 {
-    public TransactionNomenSrv(DB Ent) : base(Ent)
+    public TransactionNomenSrv(BankReporingContext Ent) : base(Ent)
     {
     }
 

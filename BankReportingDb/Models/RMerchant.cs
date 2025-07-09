@@ -9,7 +9,7 @@ public partial class RMerchant
 {
     public decimal Id { get; set; }
 
-    public decimal? IdPartner { get; set; }
+    public decimal IdPartner { get; set; }
 
     public string Name { get; set; }
 

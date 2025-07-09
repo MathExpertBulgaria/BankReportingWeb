@@ -5,6 +5,8 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using webapi.Code;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using BankReportingDb.Context;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +28,24 @@ builder.Services.AddControllers()
         jo.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
-var connStrCfg = builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+// Add db
+var cfgConn = builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+var cfgLib = builder.Configuration.GetSection("CfgLib").Get<CfgLib>();
+builder.Services.AddDbContext<BankReporingContext>(dbContxOpt =>
+    dbContxOpt.UseLazyLoadingProxies(true)
+            .UseSqlServer(cfgConn.DB, opt =>
+            {
+                if (cfgLib != null)
+                {
+                    opt.CommandTimeout(cfgLib.DbCmdTimeout);
+                    opt.MaxBatchSize(cfgLib.EFBatchSize);
+                }
+            }));
+
+// Add BL
 builder.Services.AddBankReportingLibrary(new LibraryConfig
 {
-    ConnectionStringsData = connStrCfg,
-    LibApp = builder.Configuration.GetSection("CfgLib").Get<CfgLib>(),
+    LibApp = cfgLib
 });
 
 var app = builder.Build();

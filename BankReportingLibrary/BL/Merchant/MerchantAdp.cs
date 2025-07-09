@@ -22,7 +22,7 @@ public class MerchantAdp : DbClassRoot
     /// </summary>
     /// <param name="Ent"></param>
     /// <param name="csvRport"></param>
-    public MerchantAdp(DB Ent,
+    public MerchantAdp(BankReporingContext Ent,
         // Report
         Lazy<CsvReport> csvRport) : base(Ent)
     {

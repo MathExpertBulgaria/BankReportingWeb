@@ -22,7 +22,7 @@ public class PartnerAdp : DbClassRoot
     /// </summary>
     /// <param name="Ent"></param>
     /// <param name="csvRport"></param>
-    public PartnerAdp(DB Ent,
+    public PartnerAdp(BankReporingContext Ent,
         // Report
         Lazy<CsvReport> csvRport) : base(Ent)
     {

@@ -11,9 +11,6 @@ public static class RegistrationModuleEx
         // Store
         config = cfg;
 
-        // Add Db
-        builder.AddTransient(cont => (new DbFactory(cont)).CreateInstanceDb());
-
         // Register classes for DI
         var realClasses = from c in typeof(RegistrationModuleEx).Assembly.ExportedTypes
                           where c.IsClass && !c.IsAbstract

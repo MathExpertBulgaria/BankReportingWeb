@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankReportingDb.Context;
 
-public partial class DB : DbContext
+public partial class BankReporingContext : DbContext
 {
-    public DB(DbContextOptions<DB> options)
+    public BankReporingContext(DbContextOptions<BankReporingContext> options)
         : base(options)
     {
     }

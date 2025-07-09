@@ -24,7 +24,7 @@ public class TransactionAdp : DbClassRoot
     /// </summary>
     /// <param name="Ent"></param>
     /// <param name="csvRport"></param>
-    public TransactionAdp(DB Ent,
+    public TransactionAdp(BankReporingContext Ent,
         // Report
         Lazy<CsvReport> csvRport,
         // Services
