@@ -58,37 +58,28 @@ public class MerchantAdp : DbClassRoot
                             (string.IsNullOrEmpty(model.Country) || x.Country.Contains(model.Country))
                             );
 
-            // Total
-            var total = await search.CountAsync();
-
-            // Paging
-            if (isPaging)
-            {
-                search = search
-                    .Skip(model.PageIndex * model.PageSize)
-                    .Take(model.PageSize);
-            }
-
             // Data
             res.Data = new ResModel<MerchantModel>()
             {
                 Res = await search
-                        .Select(x => new MerchantModel()
-                        {
-                            Id = x.Id,
-                            Name = x.Name,
-                            BoardingDate = x.BoardingDate,
-                            Url = x.Url,
-                            Country = x.Country,
-                            Address1 = x.Address1,
-                            Address2 = x.Addres2,
-                            PartnerName = x.IdPartnerNavigation.Name
-                        })
-                        .ToListAsync()
-                        .ConfigureAwait(false),
+                    .Page(isPaging, model.PageIndex, model.PageSize)
+                    .Select(x => new MerchantModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        BoardingDate = x.BoardingDate,
+                        Url = x.Url,
+                        Country = x.Country,
+                        Address1 = x.Address1,
+                        Address2 = x.Addres2,
+                        PartnerName = x.IdPartnerNavigation.Name
+                    })
+                    .ToListAsync()
+                    .ConfigureAwait(false),
 
                 // Total
                 Total = await search.CountAsync()
+                    .ConfigureAwait(false)
             };
 
             // Commit

@@ -92,39 +92,30 @@ public class TransactionAdp : DbClassRoot
                             (string.IsNullOrEmpty(model.ExternalId) || x.ExternalId.Contains(model.ExternalId))
                             );
 
-            // Total
-            var total = await search.CountAsync();
-
-            // Paging
-            if (isPaging)
-            {
-                search = search
-                    .Skip(model.PageIndex * model.PageSize)
-                    .Take(model.PageSize);
-            }
-
             // Data
             res.Data = new ResModel<TransactionModel>()
             {
                 Res = await search
-                        .Select(x => new TransactionModel()
-                        {
-                            Id = x.Id,
-                            CreateDate = x.CreateDate,
-                            IdDirection = x.IdDirection,
-                            Amount = x.Amount,
-                            IdCcy = x.IdCcy,
-                            DebtorIban = x.DebtorIban,
-                            BeneficiaryIban = x.BeneficiaryIban,
-                            Status = x.Status,
-                            ExternalId = x.ExternalId,
-                            MerchantName = x.IdMerchantNavigation.Name
-                        })
-                        .ToListAsync()
-                        .ConfigureAwait(false),
+                    .Page(isPaging, model.PageIndex, model.PageSize)
+                    .Select(x => new TransactionModel()
+                    {
+                        Id = x.Id,
+                        CreateDate = x.CreateDate,
+                        IdDirection = x.IdDirection,
+                        Amount = x.Amount,
+                        IdCcy = x.IdCcy,
+                        DebtorIban = x.DebtorIban,
+                        BeneficiaryIban = x.BeneficiaryIban,
+                        Status = x.Status,
+                        ExternalId = x.ExternalId,
+                        MerchantName = x.IdMerchantNavigation.Name
+                    })
+                    .ToListAsync()
+                    .ConfigureAwait(false),
 
                 // Total
-                Total = total
+                Total = await search.CountAsync()
+                    .ConfigureAwait(false)
             };
 
             // Commit

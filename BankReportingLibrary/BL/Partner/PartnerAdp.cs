@@ -49,30 +49,21 @@ public class PartnerAdp : DbClassRoot
             var search = Db.RPartners.AsNoTracking()
                         .Where(x => string.IsNullOrEmpty(model.Name) || x.Name.Contains(model.Name));
 
-            // Total
-            var total = await search.CountAsync();
-
-            // Paging
-            if (isPaging)
-            {
-                search = search
-                    .Skip(model.PageIndex * model.PageSize)
-                    .Take(model.PageSize);
-            }
-
             // Data
             res.Data = new ResModel<PartnerModel>()
             {
                 Res = await search
-                        .Select(x => new PartnerModel()
-                        {
-                            Id = x.Id,
-                            Name = x.Name
-                        })
-                        .ToListAsync()
-                        .ConfigureAwait(false),
+                    .Page(isPaging, model.PageIndex, model.PageSize)
+                    .Select(x => new PartnerModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+                    })
+                    .ToListAsync()
+                    .ConfigureAwait(false),
                 // Total
                 Total = await search.CountAsync()
+                    .ConfigureAwait(false)
             };
 
             // Commit
