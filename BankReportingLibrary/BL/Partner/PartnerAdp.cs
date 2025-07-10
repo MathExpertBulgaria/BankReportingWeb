@@ -53,7 +53,8 @@ public class PartnerAdp : DbClassRoot
             res.Data = new ResModel<PartnerModel>()
             {
                 Res = await search
-                    .Page(isPaging, model.PageIndex, model.PageSize)
+                    .Sort(model.Sort)
+                    .Page(isPaging, model.Page)
                     .Select(x => new PartnerModel()
                     {
                         Id = x.Id,

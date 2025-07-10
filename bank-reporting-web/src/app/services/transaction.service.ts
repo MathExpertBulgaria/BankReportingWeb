@@ -7,6 +7,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { DataOperationResult } from '../models/data-operation-result-model';
 import { DownloadFileModel } from '../models/download-file.model';
 import { PageEvent } from '@angular/material/paginator';
+import { SortModel } from '../models/sort-model';
+import { InitialPage } from '../consts/page-const.model';
+import { PageModel } from '../models/page-model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +31,9 @@ export class TransactionService {
   // Show result
   public showRes: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   // Page data
-  public pageData: BehaviorSubject<PageEvent> = new BehaviorSubject<PageEvent>(<PageEvent> {
-    pageIndex: 0,
-    pageSize: 5
-  });
+  public pageData: BehaviorSubject<PageModel> = new BehaviorSubject<PageModel>(InitialPage);
+  // Sort data
+  public sortData: BehaviorSubject<SortModel | null> = new BehaviorSubject<SortModel | null>(null);
 
   constructor(private http: HttpClient) {
 

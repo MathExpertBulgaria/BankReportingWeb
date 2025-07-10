@@ -1,4 +1,11 @@
+import { PageModel } from "./page-model";
+import { SortModel } from "./sort-model";
+
 export interface SearchModel {
-    pageIndex: number;
-    pageSize: number;
+    // Page
+    page?: PageModel;
+    isPaging?: boolean;
+
+    // Sort
+    sort?: SortModel | null;
 }

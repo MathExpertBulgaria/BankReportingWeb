@@ -11,6 +11,7 @@ import { SearchPartnerModel } from '../../../partners/models/search-partner-mode
 import { MerchantModel } from '../../../merchants/models/merchant-model';
 import { SearchMerchantModel } from '../../../merchants/models/search-merchant-model';
 import { isFormChange } from '../../../../functions/form-changes';
+import { InitialPage } from '../../../../consts/page-const.model';
 
 @Component({
   selector: 'app-search-transaction',

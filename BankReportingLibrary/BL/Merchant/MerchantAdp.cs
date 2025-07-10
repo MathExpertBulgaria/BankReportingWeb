@@ -62,7 +62,8 @@ public class MerchantAdp : DbClassRoot
             res.Data = new ResModel<MerchantModel>()
             {
                 Res = await search
-                    .Page(isPaging, model.PageIndex, model.PageSize)
+                    .Sort(model.Sort)
+                    .Page(isPaging, model.Page)
                     .Select(x => new MerchantModel()
                     {
                         Id = x.Id,

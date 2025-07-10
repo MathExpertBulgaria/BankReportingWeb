@@ -22,5 +22,4 @@ public class SearchTransactionModel : SearchModel
 
     // Nomen
     public TransactionNomenModel? Nomen { get; set; }
-
 }

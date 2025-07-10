@@ -1,10 +1,9 @@
 ﻿namespace BankReportingLibrary.BL.Models;
 
-/// <summary>
-/// Search model
-/// </summary>
 public class SearchModel
 {
-    public int PageIndex { get; set; }
-    public int PageSize { get; set; } = 5;
+    // Page
+    public PageModel? Page { get; set; }
+    // Sort
+    public SortModel? Sort { get; set; }
 }

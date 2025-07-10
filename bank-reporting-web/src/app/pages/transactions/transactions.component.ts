@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { createDORfromError, createDORfromObj, OperationAlert } from '../../models/data-operation-result-model';
 import { SearchTransactionModel } from './models/search-transaction-model';
 import { finalize, Subscription } from 'rxjs';
@@ -8,7 +8,10 @@ import { TransactionModel } from './models/transaction-model';
 import { AppService } from '../../services/app.service';
 import { DownloadFileModel } from '../../models/download-file.model';
 import { downloadFile } from '../../functions/download-file';
-import { PageEvent } from '@angular/material/paginator';
+import { SortModel } from '../../models/sort-model';
+import { PageModel } from '../../models/page-model';
+import { InitialPage } from '../../consts/page-const.model';
+import { TransactionTableComponent } from './components/transaction-table/transaction-table.component';
 
 @Component({
   selector: 'app-transactions',
@@ -22,7 +25,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   public showSpinner = false;
   public isExpanded = true;
   public showTable = false;
-  public pageData!: PageEvent;
+  public pageData?: PageModel;
+  public sortData?: SortModel |null = null;
 
   // Subscriptions
   subGet: Subscription | null = null;
@@ -31,6 +35,9 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   subCsv: Subscription | null = null;
   subImport: Subscription | null = null;
   subPageData: Subscription | null = null;
+  subSort: Subscription | null = null;
+
+  @ViewChild(TransactionTableComponent, { static: false }) table: TransactionTableComponent | null = null;
 
   constructor(private srv: TransactionService,
     private appSrv: AppService
@@ -72,6 +79,11 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.subPageData = this.srv.pageData.subscribe(x => {
       this.pageData = x;
     });
+
+    // Sort data
+    this.subSort = this.srv.sortData.subscribe(x => {
+      this.sortData = x;
+    });
   }
 
   ngOnDestroy(): void {
@@ -82,14 +94,28 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.subCsv?.unsubscribe();
     this.subImport?.unsubscribe();
     this.subPageData?.unsubscribe();
+    this.subSort?.unsubscribe();
+
+    // Clear
+    this.srv.srcRes.next(null);
+    this.srv.srcRes.next(null);
+    this.srv.showRes.next(false);
   }
 
   onSearch(event: any) {
     const model = event as SearchTransactionModel;
 
+    // Set
+    if (!model.isPaging) {
+      this.srv.pageData.next(InitialPage);
+      this.table?.moveToFistPage();
+    }
+
     // Page data
-    model.pageIndex = this.pageData.pageIndex;
-    model.pageSize = this.pageData.pageSize;
+    model.page = this.pageData;
+
+    // Sort data
+    model.sort = this.sortData;
 
     this.showSpinner = true;
     
@@ -174,3 +200,4 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.oprRes = null;
   }
 }
+

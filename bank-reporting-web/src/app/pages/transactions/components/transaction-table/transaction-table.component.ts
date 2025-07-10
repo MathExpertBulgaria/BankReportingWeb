@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { TransactionService } from '../../../../services/transaction.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { TransactionModel } from '../../models/transaction-model';
 import { SearchTransactionModel } from '../../models/search-transaction-model';
+import { PageModel } from '../../../../models/page-model';
 
 @Component({
   selector: 'app-transaction-table',
@@ -13,16 +14,16 @@ import { SearchTransactionModel } from '../../models/search-transaction-model';
   templateUrl: './transaction-table.component.html',
   styleUrl: './transaction-table.component.scss'
 })
-export class TransactionTableComponent implements OnInit, OnDestroy {
+export class TransactionTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Table structure
-  displayedColumns: string[] = ['partnerName', 'merchantName', 'debtorIban', 'beneficiaryIban', 'createDate', 'amount', 'externald', 'status'];
+  displayedColumns: string[] = ['partnerName', 'merchantName', 'debtorIban', 'beneficiaryIban', 'createDate', 'amount', 'externalId', 'status'];
 
   // Locals
   dataSource: MatTableDataSource<TransactionModel>;
   total = 0;
   srcFormModel: SearchTransactionModel | null = null;
-  pageData!: PageEvent;
+  pageData!: PageModel;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
@@ -31,6 +32,7 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
   subRes: Subscription | null = null;
   subSrcForm: Subscription | null = null;
   subPageData: Subscription | null = null;
+  subSortChange: Subscription | null = null;
 
   // Outputs
   @Output() public search = new EventEmitter<SearchTransactionModel>();
@@ -40,24 +42,10 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Define paging and sort
-    // this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    if (this.sort) {
-     this.sort.active = 'id';
-     this.sort.start = 'asc';
-    }
-
     // Subscribe for data
     this.subRes = this.srv.srcRes.subscribe(res => {
       // Set data
       if (res !== null && res.res !== null) {
-        // Re-set sort
-        if (this.sort) {
-         this.sort.active = 'id';
-         this.sort.direction = 'asc';
-        }
-
         this.dataSource.data = res.res!;
         this.total = res.total;
 
@@ -84,6 +72,18 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
     this.subRes?.unsubscribe();
     this.subSrcForm?.unsubscribe();
     this.subPageData?.unsubscribe();
+    this.subSortChange?.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    this.subSortChange = this.sort!.sortChange
+    .subscribe((sort: any) => {
+        this.srv.sortData.next({ sortBy: sort.active, sortDirection: sort.direction });
+
+        // Search
+        var model = this.srcFormModel ? this.srcFormModel : <SearchTransactionModel>{};
+        this.search.emit(model);
+    });
   }
 
   // Show or hide table
@@ -93,10 +93,16 @@ export class TransactionTableComponent implements OnInit, OnDestroy {
 
   onPageChange(event: any) {
     const evt = event as PageEvent;
-    this.srv.pageData.next(evt);
+    const page = <PageModel> { pageIndex: evt.pageIndex, pageSize: evt.pageSize };
+    this.srv.pageData.next(page);
 
+    // Search
     var model = this.srcFormModel ? this.srcFormModel : <SearchTransactionModel>{};
-
+    model.isPaging = true;
     this.search.emit(model);
+  }
+
+  moveToFistPage() {
+    this.paginator?.firstPage();
   }
 }

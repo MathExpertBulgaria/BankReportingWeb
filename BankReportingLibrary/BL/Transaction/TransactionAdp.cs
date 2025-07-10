@@ -98,7 +98,8 @@ public class TransactionAdp : DbClassRoot
             res.Data = new ResModel<TransactionModel>()
             {
                 Res = await search
-                    .Page(isPaging, model.PageIndex, model.PageSize)
+                    .Sort(model.Sort)
+                    .Page(isPaging, model.Page)
                     .Select(x => new TransactionModel()
                     {
                         Id = x.Id,
