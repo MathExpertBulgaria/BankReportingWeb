@@ -19,7 +19,7 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { HomeComponent } from './pages/home/home.component';
 import { InfoComponent } from './pages/info/info.component';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { OperationResultComponent } from './components/operation-result/operation-result.component';
 import { ProgressUndeterminateComponent } from './components/progress-undeterminate/progress-undeterminate.component';
@@ -37,6 +37,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { ErrorInterceptor } from './services/error-interceptor.service';
 
 const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -65,6 +67,7 @@ const MY_NATIVE_DATE_FORMATS = {
     TransactionsComponent,
     SearchTransactionComponent,
     TransactionTableComponent,
+    ErrorPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +100,7 @@ const MY_NATIVE_DATE_FORMATS = {
   ],
   providers: [
     MatIconRegistry,
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([ErrorInterceptor]) ),
     { provide: MAT_DATE_FORMATS, useValue: MY_NATIVE_DATE_FORMATS },
     { provide: MAT_LUXON_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true, firstDayOfWeek: 7 } },
   ],

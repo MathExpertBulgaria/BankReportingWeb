@@ -16,8 +16,9 @@ namespace webapi.Controllers;
 public class TransactionController : RootController<TransactionAdp>
 {
     // Injection constructor
-    public TransactionController(TransactionAdp service
-        ) : base(service)
+    public TransactionController(TransactionAdp service,
+        ILogger<TransactionController> logger
+        ) : base(service, logger)
     {
 
     }
@@ -33,7 +34,7 @@ public class TransactionController : RootController<TransactionAdp>
         try
         {
             // Search
-            var res = await Service.Search();
+            var res = await _service.Search();
 
             // Return
             return Ok(res);
@@ -56,7 +57,7 @@ public class TransactionController : RootController<TransactionAdp>
         try
         {
             // Search
-            var res = await Service.SearchAsync(model);
+            var res = await _service.SearchAsync(model);
 
             // Return
             return Ok(res);
@@ -79,7 +80,7 @@ public class TransactionController : RootController<TransactionAdp>
         try
         {
             // Get
-            var res = await Service.GetByIdAsync(model);
+            var res = await _service.GetByIdAsync(model);
 
             // Return
             return Ok(res);
@@ -101,7 +102,7 @@ public class TransactionController : RootController<TransactionAdp>
         try
         {
             // Get
-            var res = await Service.GetCsvAsync(model);
+            var res = await _service.GetCsvAsync(model);
 
             // Return
             return Ok(res);
@@ -145,7 +146,7 @@ public class TransactionController : RootController<TransactionAdp>
             model.Search = search;
 
             // Get
-            var res = await Service.ImportXmlAsync(model, ct);
+            var res = await _service.ImportXmlAsync(model, ct);
 
             // Return
             return Ok(res);

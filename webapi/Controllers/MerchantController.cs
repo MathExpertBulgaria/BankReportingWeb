@@ -15,8 +15,9 @@ namespace webapi.Controllers;
 public class MerchantController : RootController<MerchantAdp>
 {
     // Injection constructor
-    public MerchantController(MerchantAdp service
-        ) : base(service)
+    public MerchantController(MerchantAdp service,
+        ILogger<MerchantController> logger
+        ) : base(service, logger)
     {
 
     }
@@ -33,7 +34,7 @@ public class MerchantController : RootController<MerchantAdp>
         try
         {
             // Search
-            var res = await Service.SearchAsync(model);
+            var res = await _service.SearchAsync(model);
 
             // Return
             return Ok(res);
@@ -56,7 +57,7 @@ public class MerchantController : RootController<MerchantAdp>
         try
         {
             // Get
-            var res = await Service.GetByIdAsync(model);
+            var res = await _service.GetByIdAsync(model);
 
             // Return
             return Ok(res);
@@ -78,7 +79,7 @@ public class MerchantController : RootController<MerchantAdp>
         try
         {
             // Get
-            var res = await Service.GetCsvAsync(model);
+            var res = await _service.GetCsvAsync(model);
 
             // Return
             return Ok(res);

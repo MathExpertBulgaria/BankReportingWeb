@@ -15,8 +15,9 @@ namespace webapi.Controllers;
 public class PartnerController : RootController<PartnerAdp>
 {
     // Injection constructor
-    public PartnerController(PartnerAdp service
-        ) : base(service)
+    public PartnerController(PartnerAdp service,
+        ILogger<PartnerController> logger
+        ) : base(service, logger)
     {
 
     }
@@ -33,7 +34,7 @@ public class PartnerController : RootController<PartnerAdp>
         try
         {
             // Search
-            var res = await Service.SearchAsync(model);
+            var res = await _service.SearchAsync(model);
 
             // Return
             return Ok(res);
@@ -56,7 +57,7 @@ public class PartnerController : RootController<PartnerAdp>
         try
         {
             // Get
-            var res = await Service.GetByIdAsync(model);
+            var res = await _service.GetByIdAsync(model);
 
             // Return
             return Ok(res);
@@ -78,7 +79,7 @@ public class PartnerController : RootController<PartnerAdp>
         try
         {
             // Get
-            var res = await Service.GetCsvAsync(model);
+            var res = await _service.GetCsvAsync(model);
 
             // Return
             return Ok(res);

@@ -7,10 +7,21 @@ using webapi.Code;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using BankReportingDb.Context;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add logger
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
+builder.Services.AddSerilog();
 
 // Add WebAPI
 builder.Services.AddControllers()
@@ -47,6 +58,10 @@ builder.Services.AddBankReportingLibrary(new LibraryConfig
 {
     LibApp = cfgLib
 });
+
+builder.Services.AddSerilog((services, lc) => lc
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext());
 
 var app = builder.Build();
 

@@ -14,18 +14,24 @@ public class RootController<T> : ControllerBase, IDisposable where T : DbClassRo
     /// <summary>
     /// The DbClassRoot for the controller
     /// </summary>
-    protected readonly T Service;
+    protected readonly T _service;
+
+    protected readonly ILogger _logger;
 
     #region Constructor and destructor
 
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public RootController(T service)
+    public RootController(T service,
+        ILogger logger)
         : base()
     {
         // Save adapter and others
-        Service = service;
+        _service = service;
+
+        // Logger
+        _logger = logger;
     }
 
     public void Dispose()
@@ -37,7 +43,8 @@ public class RootController<T> : ControllerBase, IDisposable where T : DbClassRo
 
     protected IActionResult HandleError(string title, Exception err)
     {
-        // log.SaveError(title, err);
+        // Log
+        _logger.LogError(title, err);
 
         // Return
         return StatusCode(500);
