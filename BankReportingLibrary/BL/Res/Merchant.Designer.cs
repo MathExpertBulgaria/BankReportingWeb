@@ -106,6 +106,15 @@ namespace BankReportingLibrary.BL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Merchants successful export.
+        /// </summary>
+        internal static string lExportOk {
+            get {
+                return ResourceManager.GetString("lExportOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         internal static string lId {

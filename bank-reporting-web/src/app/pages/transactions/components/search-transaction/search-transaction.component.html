@@ -10,7 +10,7 @@
                 <input type="text" [matAutocomplete]="auto1" matInput maxlength="100" 
                     formControlName="partnerName" [required]="isPartnerRequired"
                     #filterPartner (keyup)="onPartnerSearch(filterPartner.value)" />
-                <mat-icon matSuffix inline fontIcon="fa-search" fontSet="far"></mat-icon>       
+                <mat-icon matSuffix inline fontIcon="fa-search" fontSet="fa"></mat-icon>       
                 <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onPartnerSelected($event.option.value)">
                     <mat-option *ngFor="let item of partners" [value]="item.id">
                         {{ item.name }}
@@ -26,7 +26,7 @@
                 <input type="text" [matAutocomplete]="auto2" matInput maxlength="100" 
                     formControlName="merchantName" [required]="isMerchantRequired"
                     #filterMerchant (keyup)="onMerchantSearch(filterMerchant.value)" />
-                <mat-icon matSuffix inline fontIcon="fa-search" fontSet="far"></mat-icon>       
+                <mat-icon matSuffix inline fontIcon="fa-search" fontSet="fa"></mat-icon>       
                 <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onMerchantSelected($event.option.value)">
                     <mat-option *ngFor="let item of merchants" [value]="item.id">
                         {{ item.name }}
@@ -135,9 +135,12 @@
         </mat-card-content>
         <mat-card-actions>
             <!-- Reset -->
-            <button mat-button type="button" color="accent" (click)="onReset()" *ngIf="!isSmallScreen">{{ 'Reset' | uppercase }}</button>
+            <button mat-button type="button" color="accent" (click)="onReset()" *ngIf="!isSmallScreen"
+                [disabled]="!changed.getValue()">
+                {{ 'Reset' | uppercase }}
+            </button>
             <button mat-icon-button type="button" color="accent" (click)="onReset()" *ngIf="isSmallScreen"
-                matTooltip="{{ 'Reset' | uppercase }}">
+                matTooltip="{{ 'Reset' | uppercase }}" [disabled]="!changed.getValue()">
                 <mat-icon fontSet="fa" inline fontIcon="fa-recycle"></mat-icon>
             </button>
 

@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@
 import { SearchTransactionModel } from '../../models/search-transaction-model';
 import { TransactionService } from '../../../../services/transaction.service';
 import { AbstractControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ScreenService } from '../../../../services/screen.service';
 import { PartnerModel } from '../../../partners/models/partner-model';
 import { PartnerService } from '../../../../services/partner.service';
@@ -10,6 +10,7 @@ import { MerchantService } from '../../../../services/merchant.service';
 import { SearchPartnerModel } from '../../../partners/models/search-partner-model';
 import { MerchantModel } from '../../../merchants/models/merchant-model';
 import { SearchMerchantModel } from '../../../merchants/models/search-merchant-model';
+import { isFormChange } from '../../../../functions/form-changes';
 
 @Component({
   selector: 'app-search-transaction',
@@ -28,6 +29,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   public merchants: MerchantModel[] | null = null;
   public isPartnerRequired = false;
   public isMerchantRequired = false;
+  changed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   
   // Subscription
   subSrcModel: Subscription | null = null;
@@ -69,6 +71,8 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     // Get search
     this.subFormChanges = this.form.valueChanges.subscribe(x => {
       this.srv.srcFormModel.next(x);
+
+      this.changed.next(isFormChange(this.srv.srcModelInit, this.form));
     });
 
     // Screen
@@ -163,11 +167,11 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
         return null;
       }
 
-      const idPartner = this.form.controls['idPartner'].value;
       const partnerName = this.form.controls['partnerName'].value;
-      const isValid = !partnerName || (this.partners && this.partners.filter(x => x.id == idPartner).length > 0);
+      const isValid = !partnerName || (this.partners && this.partners.filter(x => x.name == partnerName).length > 0);
 
       if (!isValid) {
+        this.form.controls['idPartner'].setValue(-1);
         return {'notFound': true } 
       }
 
@@ -181,11 +185,11 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
         return null;
       }
 
-      const idMerchant = this.form.controls['idMerchant'].value;
       const merchantName = this.form.controls['merchantName'].value;
-      const isValid = !merchantName || (this.merchants && this.merchants.filter(x => x.id == idMerchant).length > 0);
+      const isValid = !merchantName || (this.merchants && this.merchants.filter(x => x.name == merchantName).length > 0);
 
       if (!isValid) {
+        this.form.controls['idMerchant'].setValue(-1);
         return {'notFound': true } 
       }
 
@@ -199,6 +203,17 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
 
     this.form.controls['idPartner'].addValidators(Validators.required);
     this.form.controls['idMerchant'].addValidators(Validators.required);
+
+    this.form.controls['idPartner'].updateValueAndValidity();
+    this.form.controls['idMerchant'].updateValueAndValidity();
+  }
+
+  clearValidators() {
+    this.isPartnerRequired = false;
+    this.isMerchantRequired = false;
+
+    this.form.controls['idPartner'].setValidators(null);
+    this.form.controls['idMerchant'].setValidators(null);
 
     this.form.controls['idPartner'].updateValueAndValidity();
     this.form.controls['idMerchant'].updateValueAndValidity();
@@ -346,22 +361,10 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   //#endregion
 
   public onSearch(): void {
-    // Validate
-    if (!this.validate()) {
-      // return
-      return;
-    }
-
     this.search.emit(this.form.value);
   }
 
   public onCsv(): void {
-     // Validate
-    if (!this.validate()) {
-      // return
-      return;
-    }
-    
     this.csv.emit(this.form.value);
   }
 
@@ -400,8 +403,7 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     this.partners = null;
     this.merchants = null;
 
-    this.isPartnerRequired = false;
-    this.isMerchantRequired = false;
+    this.clearValidators();
 
     this.srv?.srcRes.next(null);
     this.srv?.showRes.next(false);

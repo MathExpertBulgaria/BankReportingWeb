@@ -15,12 +15,16 @@
 <router-outlet></router-outlet>
 
 <mat-menu #matUser="matMenu">
-    <a [routerLink]="['transactions']" mat-menu-item>
+     <a mat-menu-item [routerLink]="['']">
+        <mat-icon fontSet="fa" fontIcon="fa-home" style="font-size:22px;"></mat-icon>
+        <span style="padding: 0px 10px;">{{ 'Home' | uppercase }}</span>
+    </a>
+    <a mat-menu-item [routerLink]="['transactions']">
         <mat-icon fontSet="fa" fontIcon="fa-money" style="font-size:22px;"></mat-icon>
         <span style="padding: 0px 10px;">{{ 'Transactions' | uppercase }}</span>
     </a>
     <mat-divider></mat-divider>
-    <a [routerLink]="['info']" mat-menu-item>
+    <a mat-menu-item [routerLink]="['info']">
         <mat-icon fontSet="fa" fontIcon="fa-info" style="font-size:22px;"></mat-icon>
         <span style="padding: 0px 10px;">{{ 'Information' | uppercase }}</span>
     </a>

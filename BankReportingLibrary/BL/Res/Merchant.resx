@@ -132,6 +132,9 @@
   <data name="lCsvFilename" xml:space="preserve">
     <value>Merchant_report</value>
   </data>
+  <data name="lExportOk" xml:space="preserve">
+    <value>Merchants successful export</value>
+  </data>
   <data name="lId" xml:space="preserve">
     <value>Id</value>
   </data>

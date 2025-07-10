@@ -6,6 +6,7 @@
 public class TransactionModel
 {
     public decimal Id { get; set; }
+    public string? PartnerName { get; set; }
 
     public decimal IdMerchant { get; set; }
 

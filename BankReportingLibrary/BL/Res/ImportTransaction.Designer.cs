@@ -151,6 +151,15 @@ namespace BankReportingLibrary.BL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transactions successful export.
+        /// </summary>
+        internal static string lExportOk {
+            get {
+                return ResourceManager.GetString("lExportOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to External id max length is 50 symbols.
         /// </summary>
         internal static string lExternalIdMaxLength {

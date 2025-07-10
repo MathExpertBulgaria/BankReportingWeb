@@ -153,4 +153,7 @@
   <data name="lMerchantName" xml:space="preserve">
     <value>Merchant name</value>
   </data>
+  <data name="lExportOk" xml:space="preserve">
+    <value>Transactions successful export</value>
+  </data>
 </root>

@@ -50,9 +50,9 @@ export class HomeComponent implements OnDestroy {
         // Set data
         if (res.data) {
           downloadFile(res.data);
-        } else {
-          this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
-        }
+        } 
+
+        this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
       },
       error: (err: any) => {
         this.oprRes = createDORfromError<DownloadFileModel>(err).getAlerts();
@@ -74,9 +74,9 @@ export class HomeComponent implements OnDestroy {
         // Set data
         if (res.data) {
           downloadFile(res.data);
-        } else {
-          this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
-        }
+        } 
+
+        this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
       },
       error: (err: any) => {
         this.oprRes = createDORfromError<DownloadFileModel>(err).getAlerts();
@@ -98,9 +98,9 @@ export class HomeComponent implements OnDestroy {
         // Set data
         if (res.data) {
           downloadFile(res.data);
-        } else {
-          this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
-        }
+        } 
+
+        this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
       },
       error: (err: any) => {
         this.oprRes = createDORfromError<DownloadFileModel>(err).getAlerts();

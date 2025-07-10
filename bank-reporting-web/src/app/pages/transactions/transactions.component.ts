@@ -8,6 +8,7 @@ import { TransactionModel } from './models/transaction-model';
 import { AppService } from '../../services/app.service';
 import { DownloadFileModel } from '../../models/download-file.model';
 import { downloadFile } from '../../functions/download-file';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-transactions',
@@ -21,6 +22,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   public showSpinner = false;
   public isExpanded = true;
   public showTable = false;
+  public pageData!: PageEvent;
 
   // Subscriptions
   subGet: Subscription | null = null;
@@ -28,6 +30,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   subShowRes: Subscription | null = null;
   subCsv: Subscription | null = null;
   subImport: Subscription | null = null;
+  subPageData: Subscription | null = null;
 
   constructor(private srv: TransactionService,
     private appSrv: AppService
@@ -50,6 +53,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         if (res.data) {
           // Set
           this.srv.srcModel.next(res.data);
+          this.srv.srcModelInit = res.data;
         } else {
           this.oprRes = createDORfromObj<SearchTransactionModel>(res).getAlerts();
         }
@@ -59,8 +63,14 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       }
     });
 
+    // Show res
     this.subShowRes = this.srv.showRes.subscribe(x => {
       this.showTable = x;
+    });
+
+    // Page data
+    this.subPageData = this.srv.pageData.subscribe(x => {
+      this.pageData = x;
     });
   }
 
@@ -71,10 +81,15 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.subShowRes?.unsubscribe();
     this.subCsv?.unsubscribe();
     this.subImport?.unsubscribe();
+    this.subPageData?.unsubscribe();
   }
 
   onSearch(event: any) {
     const model = event as SearchTransactionModel;
+
+    // Page data
+    model.pageIndex = this.pageData.pageIndex;
+    model.pageSize = this.pageData.pageSize;
 
     this.showSpinner = true;
     
@@ -117,9 +132,9 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         // Set data
         if (res.data) {
           downloadFile(res.data);
-        } else {
-          this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
         }
+
+        this.oprRes = createDORfromObj<DownloadFileModel>(res).getAlerts();
       },
       error: (err: any) => {
         this.oprRes = createDORfromError<DownloadFileModel>(err).getAlerts();

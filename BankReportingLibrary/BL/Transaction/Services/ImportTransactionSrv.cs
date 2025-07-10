@@ -18,6 +18,11 @@ public class ImportTransactionSrv : DbClassRoot
     // Validators
     private readonly Lazy<TransactionsFileModelValidator> _transactionFileModelValidator;
 
+    /// <summary>
+    /// Injection constructor
+    /// </summary>
+    /// <param name="Ent"></param>
+    /// <param name="transactionFileModelValidator"></param>
     public ImportTransactionSrv(BankReporingContext Ent,
         // Validators
         Lazy<TransactionsFileModelValidator> transactionFileModelValidator) : base(Ent)

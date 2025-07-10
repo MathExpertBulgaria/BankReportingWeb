@@ -70,6 +70,15 @@ namespace BankReportingLibrary.BL.Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Partners successful export.
+        /// </summary>
+        internal static string lExportOk {
+            get {
+                return ResourceManager.GetString("lExportOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         internal static string lId {

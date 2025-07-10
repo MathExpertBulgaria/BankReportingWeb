@@ -1,5 +1,6 @@
 export interface TransactionModel {
     id?: number;
+    partnerName: string;
     idMerchant: number;
     merchantName?: string;
     createDate: Date;

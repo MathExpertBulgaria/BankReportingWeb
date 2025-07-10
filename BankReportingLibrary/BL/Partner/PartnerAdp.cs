@@ -139,6 +139,9 @@ public class PartnerAdp : DbClassRoot
             .GenerateReportAsync<PartnerModel, PartnerMapModel>(data.Data.Res)
             .ConfigureAwait(false);
 
+        // Message
+        res.Messages.AddInfo(Res.Partner.lExportOk);
+
         // Return
         return res;
     }

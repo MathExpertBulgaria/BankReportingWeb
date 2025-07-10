@@ -162,6 +162,9 @@ public class MerchantAdp : DbClassRoot
             .GenerateReportAsync<MerchantModel, MerchantMapModel>(data.Data.Res)
             .ConfigureAwait(false);
 
+        // Message
+        res.Messages.AddInfo(Res.Merchant.lExportOk);
+
         // Return
         return res;
     }

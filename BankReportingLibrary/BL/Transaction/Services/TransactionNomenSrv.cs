@@ -16,6 +16,10 @@ namespace BankReportingLibrary.BL.Transaction.Services;
 /// </summary>
 public class TransactionNomenSrv : DbClassRoot
 {
+    /// <summary>
+    /// Injection constructor
+    /// </summary>
+    /// <param name="Ent"></param>
     public TransactionNomenSrv(BankReporingContext Ent) : base(Ent)
     {
     }

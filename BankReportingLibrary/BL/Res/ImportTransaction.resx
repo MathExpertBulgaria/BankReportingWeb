@@ -147,6 +147,9 @@
   <data name="lDirectionRequired" xml:space="preserve">
     <value>Direction is required</value>
   </data>
+  <data name="lExportOk" xml:space="preserve">
+    <value>Transactions successful export</value>
+  </data>
   <data name="lExternalIdMaxLength" xml:space="preserve">
     <value>External id max length is 50 symbols</value>
   </data>

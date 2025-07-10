@@ -6,6 +6,7 @@ import { TransactionModel } from '../pages/transactions/models/transaction-model
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataOperationResult } from '../models/data-operation-result-model';
 import { DownloadFileModel } from '../models/download-file.model';
+import { PageEvent } from '@angular/material/paginator';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +20,18 @@ export class TransactionService {
 
   // Seach model
   public srcModel: BehaviorSubject<SearchTransactionModel | null> = new BehaviorSubject<SearchTransactionModel | null>(null);
+  public srcModelInit: SearchTransactionModel | null = null;
   // Search form
   public srcFormModel: BehaviorSubject<SearchTransactionModel | null> = new BehaviorSubject<SearchTransactionModel | null>(null);
   // Search result
   public srcRes: BehaviorSubject<ResModel<TransactionModel> | null> = new BehaviorSubject<ResModel<TransactionModel> | null>(null);
   // Show result
   public showRes: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  // Page data
+  public pageData: BehaviorSubject<PageEvent> = new BehaviorSubject<PageEvent>(<PageEvent> {
+    pageIndex: 0,
+    pageSize: 5
+  });
 
   constructor(private http: HttpClient) {
 

@@ -46,26 +46,26 @@
 
           <h4>Search transactions</h4>
           <p>
-            You can search transactions either by specifying search criteria or not. 
-            Numerous transaction properties like beneficiary iban, amount details, create date, etc. are available for search.
+            You can search transactions by numerous transaction properties like beneficiary iban, amount details, create date, etc. 
+            You can also search all transactions by not specifying any criteria.
           </p>
            <p>
            After searching you are displayed the search result in a sortable table with pagination.
+          </p>
+          <p>
+           You can reset the search by clicking on the reset button.
           </p>
 
           <h4>Partner and merchant filters</h4>
           <p>
             Partners can be filtered out by entering at least three symbols in the partner field. Then if matched partners are found, 
-            select one from the list.
+            select one from the list. The list may contain only a few of the matched records, so use the export functionality to 
+            be more specific about the partner name.
           </p>
 
           <p>
             Merchant field is initially disabled. It needs a partner to be selected before it enables. 
             Searching this field is as is the partner search.
-          </p>
-
-          <p>
-            If partner or merchant field is filled in and invalid, search, export, and import functionality won't be available.
           </p>
 
            <h4>Export transactions</h4>
@@ -78,7 +78,7 @@
            <p>
             There is a functionality to import transaction from an XML file. 
             Since the file itself does not contain information about the partner and the merchant it is thus required to 
-            fill in the partner and merchant information on the search screen before you can click the import button.
+            fill in the partner and merchant information on the search screen.
           </p>
         </mat-expansion-panel>
     </mat-accordion>

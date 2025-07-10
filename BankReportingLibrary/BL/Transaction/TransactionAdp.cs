@@ -24,6 +24,8 @@ public class TransactionAdp : DbClassRoot
     /// </summary>
     /// <param name="Ent"></param>
     /// <param name="csvRport"></param>
+    /// <param name="nomenSrv"></param>
+    /// <param name="xmlImport"></param>
     public TransactionAdp(BankReporingContext Ent,
         // Report
         Lazy<CsvReport> csvRport,
@@ -108,7 +110,8 @@ public class TransactionAdp : DbClassRoot
                         BeneficiaryIban = x.BeneficiaryIban,
                         Status = x.Status,
                         ExternalId = x.ExternalId,
-                        MerchantName = x.IdMerchantNavigation.Name
+                        MerchantName = x.IdMerchantNavigation.Name,
+                        PartnerName = x.IdMerchantNavigation.IdPartnerNavigation.Name
                     })
                     .ToListAsync()
                     .ConfigureAwait(false),
@@ -199,6 +202,9 @@ public class TransactionAdp : DbClassRoot
         res.Data.Contents = await _csvReport.Value
             .GenerateReportAsync<TransactionModel, TransactionMapModel>(data.Data.Res)
             .ConfigureAwait(false);
+
+        // Message
+        res.Messages.AddInfo(Res.Transaction.lExportOk);
 
         // Return
         return res;
