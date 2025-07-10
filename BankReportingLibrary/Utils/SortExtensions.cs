@@ -36,6 +36,7 @@ public static class SortExtensions
             return search;
         }
 
+        // Check
         if (sort.SortDirection == SortDirectionConst.Ascending)
         {
             search = search.OrderByColumn(sort.SortBy);

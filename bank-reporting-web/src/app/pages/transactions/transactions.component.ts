@@ -97,13 +97,17 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.subSort?.unsubscribe();
 
     // Clear
-    this.srv.srcRes.next(null);
-    this.srv.srcRes.next(null);
-    this.srv.showRes.next(false);
+    //this.srv.srcModel.next(null);
+    //this.srv.srcRes.next(null);
+    //this.srv.showRes.next(false);
   }
 
   onSearch(event: any) {
     const model = event as SearchTransactionModel;
+
+    // Store
+    model.nomen = this.srv.srcModel.getValue()?.nomen;
+    this.srv.srcModel.next(model);
 
     // Set
     if (!model.isPaging) {

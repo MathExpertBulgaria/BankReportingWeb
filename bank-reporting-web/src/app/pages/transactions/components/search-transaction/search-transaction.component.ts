@@ -11,7 +11,6 @@ import { SearchPartnerModel } from '../../../partners/models/search-partner-mode
 import { MerchantModel } from '../../../merchants/models/merchant-model';
 import { SearchMerchantModel } from '../../../merchants/models/search-merchant-model';
 import { isFormChange } from '../../../../functions/form-changes';
-import { InitialPage } from '../../../../consts/page-const.model';
 
 @Component({
   selector: 'app-search-transaction',
@@ -64,6 +63,8 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
     // Get search
     this.subSrcModel = this.srv.srcModel.subscribe(x => {
       this.srcModel = x;
+
+      this.changed.next(this.form?.dirty);
     });
 
     // Create form
@@ -104,20 +105,20 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
   private createForm() {
     // Create form
     this.form = this.fb.group({
-      idPartner: [null],
-      partnerName: [null, this.validatePartnerNotFound()],
-      idMerchant: [null],
-      merchantName: [{ value: null, disabled: true, }, this.validateMerchantNotFound()],
-      createDateFrom: [null],
-      createDateTo: [null],
-      idDirection: [null],
-      amountFrom: [null],
-      amountTo: [null],
-      idCcy: [null],
-      debtorIban: [null],
-      beneficiaryIban: [null],
-      status: [null],
-      externalId: [null],
+      idPartner: [this.srcModel?.idPartner],
+      partnerName: [this.srcModel?.partnerName, this.validatePartnerNotFound()],
+      idMerchant: [this.srcModel?.idMerchant],
+      merchantName: [{ value: this.srcModel?.merchantName, disabled: true, }, this.validateMerchantNotFound()],
+      createDateFrom: [this.srcModel?.createDateFrom],
+      createDateTo: [this.srcModel?.createDateTo],
+      idDirection: [this.srcModel?.idDirection],
+      amountFrom: [this.srcModel?.amountFrom],
+      amountTo: [this.srcModel?.amountTo],
+      idCcy: [this.srcModel?.idCcy],
+      debtorIban: [this.srcModel?.debtorIban],
+      beneficiaryIban: [this.srcModel?.beneficiaryIban],
+      status: [this.srcModel?.status],
+      externalId: [this.srcModel?.externalId],
     });
   }
 
