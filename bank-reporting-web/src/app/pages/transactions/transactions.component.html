@@ -1,13 +1,9 @@
 <app-operation-result *ngIf="oprRes" [dor]="oprRes"></app-operation-result>
 
-<br/>
-
 <!-- Search -->
 <app-search-transaction 
     (search)="onSearch($event)" (csv)="onCsv($event)" (import)="onImport($event)" (reset)="onReset()">
 </app-search-transaction>
-
-<br/>
 
 <!-- SPINNER - WAITING FOR RESULTS -->
 <app-progress-undeterminate [showSpinner]="showSpinner"></app-progress-undeterminate>

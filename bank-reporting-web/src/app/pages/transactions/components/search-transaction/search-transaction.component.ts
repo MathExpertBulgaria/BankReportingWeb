@@ -170,11 +170,14 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
       }
 
       const partnerName = this.form.controls['partnerName'].value;
-      const isValid = !partnerName || (this.partners && this.partners.filter(x => x.name == partnerName).length > 0);
+
+      const isValid = !partnerName || partnerName == '' || (this.partners && this.partners.filter(x => x.name == partnerName).length > 0);
 
       if (!isValid) {
         this.form.controls['idPartner'].setValue(-1);
         return {'notFound': true } 
+      } else if (partnerName == '') {
+        this.form.controls['idPartner'].setValue(null);
       }
 
       return null;
@@ -188,11 +191,13 @@ export class SearchTransactionComponent implements OnInit, OnDestroy {
       }
 
       const merchantName = this.form.controls['merchantName'].value;
-      const isValid = !merchantName || (this.merchants && this.merchants.filter(x => x.name == merchantName).length > 0);
+      const isValid = !merchantName || merchantName == '' || (this.merchants && this.merchants.filter(x => x.name == merchantName).length > 0);
 
       if (!isValid) {
         this.form.controls['idMerchant'].setValue(-1);
         return {'notFound': true } 
+      } else if (merchantName == '') {
+        this.form.controls['idMerchant'].setValue(null);
       }
 
       return null;

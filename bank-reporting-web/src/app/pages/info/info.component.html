@@ -1,6 +1,6 @@
 <div class="cont">
     <!-- Main -->
-    <mat-card appearance="outlined">
+    <mat-card appearance="outlined" class="mat-card">
         <mat-card-header>
             <div mat-card-avatar class="icondiv">
                 <mat-icon fontSet="fa" fontIcon="fa-info"></mat-icon>
@@ -23,7 +23,7 @@
 
     <mat-accordion multi="true">
         <!-- Export -->
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel expanded="true" class="expansion-panel">
             <mat-expansion-panel-header>
                 {{ 'Export' | uppercase }}
             </mat-expansion-panel-header>
@@ -37,7 +37,7 @@
         </mat-expansion-panel>
 
         <!-- Transaction -->
-        <mat-expansion-panel>
+        <mat-expansion-panel class="expansion-panel">
             <mat-expansion-panel-header>
                 {{ 'Transactions' | uppercase }}
             </mat-expansion-panel-header>
