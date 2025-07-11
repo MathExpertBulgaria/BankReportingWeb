@@ -4,7 +4,6 @@ using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using webapi.Code;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using BankReportingDb.Context;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -16,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add logger
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateBootstrapLogger();
@@ -61,6 +60,7 @@ builder.Services.AddBankReportingLibrary(new LibraryConfig
 
 builder.Services.AddSerilog((services, lc) => lc
     .ReadFrom.Configuration(builder.Configuration)
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .Enrich.FromLogContext());
 
 var app = builder.Build();
